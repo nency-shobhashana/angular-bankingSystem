@@ -1,0 +1,35 @@
+<app-header></app-header>
+
+<div class="content" role="main">
+	<!-- <a routerLink="/admin" routerLinkActive="active" mat-raised-button color="primary">Go to login page</a> -->
+
+
+</div>
+
+
+<mat-grid-list cols="3">
+  <mat-grid-tile>1</mat-grid-tile>
+  <mat-grid-tile>
+  	<mat-card>
+		<h2 class="text-center">LOGIN</h2>
+		<div class="example-container">
+		  <mat-form-field appearance="fill" class="width-100">
+		    <mat-label>Username</mat-label>
+		    <input matInput placeholder="Login ID">
+		  </mat-form-field>
+		  <mat-form-field appearance="fill" class="width-100">
+		    <mat-label>Enter your password</mat-label>
+		    <input matInput [type]="hide ? 'password' : 'text'">
+		    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+		    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+		    </button>
+		  </mat-form-field>
+		  <div class="example-button-row text-center">
+		  	<a routerLink="/admin" routerLinkActive="active" mat-raised-button color="primary">Login</a>
+		  </div>
+		</div>
+	</mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile>3</mat-grid-tile>
+</mat-grid-list>
+
