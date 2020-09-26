@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ServerService } from '../server.service';
 
 @Component({
   selector: 'app-login',
@@ -6,11 +8,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-hide = true;
+  hide = true;
 
-  constructor() { }
+  constructor(private router: Router, private serverService: ServerService) { }
 
   ngOnInit(): void {
+  }
+
+  username: string;
+  password: string;
+
+  login() {
+    this.serverService.loginAuth(this.username, this.password).subscribe(() => {
+      this.router.navigate(['admin']);
+    },
+      () => alert("Invalid credentials."));
   }
 
 }
