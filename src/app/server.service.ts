@@ -4,6 +4,7 @@ import { delay } from 'rxjs/operators';
 import { switchMap } from 'rxjs/operators';
 import { Observable, throwError, of, from } from 'rxjs';
 import { EmployeeElement } from './add-emplyee/add-emplyee.component';
+import { CustomerElement } from './add-customer/add-customer.component';
 
 export const environment = {
   production: false,
@@ -52,7 +53,30 @@ export class ServerService {
     return of({ status: 'success' }).pipe(delay(1000));
   }
 
+  
+
   insertEmployeeData = (data:EmployeeElement) => of(data).pipe(
     switchMap((body) => from(this.request('PUT', `${environment.serverUrl}/employee`, body)))
   )
+
+  getAllEmployeeData = () => of(1).pipe(
+    switchMap(() => from(this.request('GET', `${environment.serverUrl}/employee`, [])))
+  )
+
+  deleteEmployeeData = (emp_id:number) => of(emp_id).pipe(
+    switchMap((id) => from(this.request('DELETE', `${environment.serverUrl}/employee/${id}`, [])))
+  )
+
+  insertCustomerData = (data:CustomerElement) => of(data).pipe(
+    switchMap((body) => from(this.request('PUT', `${environment.serverUrl}/employee`, body)))
+  )
+
+  getAllCustomerData = () => of(1).pipe(
+    switchMap(() => from(this.request('GET', `${environment.serverUrl}/employee`, [])))
+  )
+
+  deleteCustomerData = (emp_id:number) => of(emp_id).pipe(
+    switchMap((id) => from(this.request('DELETE', `${environment.serverUrl}/employee/${id}`, [])))
+  )
+
 }

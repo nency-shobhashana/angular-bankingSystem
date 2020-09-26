@@ -3,7 +3,7 @@ import {FormControl} from '@angular/forms';
 import { Router } from '@angular/router';
 import { ServerService } from '../server.service';
 
-export interface EmployeeElement {
+export interface CustomerElement {
   f_name: string;
   l_name: string;
   contact: number;
@@ -16,11 +16,11 @@ export interface EmployeeElement {
 }
 
 interface Gender {
-  value: number;
+  value: string;
   viewValue: string;
 }
 interface State {
-  value: number;
+  value: string;
   viewValue: string;
 }
 
@@ -31,7 +31,7 @@ interface State {
 })
 export class AddCustomerComponent implements OnInit {
 
-  data: EmployeeElement = {
+  data: CustomerElement = {
     f_name: "",
     l_name: "",
     contact: 0,
@@ -44,13 +44,13 @@ export class AddCustomerComponent implements OnInit {
     };
   
     gender: Gender[] = [
-      {value: 0, viewValue: 'Female'},
-      {value: 1, viewValue: 'Male'}
+      {value: 'Female', viewValue: 'Female'},
+      {value: 'Male', viewValue: 'Male'}
     ];
     state: State[] = [
-      {value: 0, viewValue: 'Gujarat'},
-      {value: 1, viewValue: 'Panjab'},
-      {value: 1, viewValue: 'Rajsthan'}
+      {value: 'Gujarat', viewValue: 'Gujarat'},
+      {value: 'Panjab', viewValue: 'Panjab'},
+      {value: 'Rajsthan', viewValue: 'Rajsthan'}
     ];
   
     date = new FormControl(new Date());
@@ -62,9 +62,9 @@ export class AddCustomerComponent implements OnInit {
     }
   
     addCustomer(){
-      this.serverService.insertEmployeeData(this.data).subscribe((response) => {
+      this.serverService.insertCustomerData(this.data).subscribe((response) => {
         if(response != null){
-          this.router.navigate(['admin']);
+          this.router.navigate(['employee']);
         }else {
           alert("Invalid credentials.");
         }

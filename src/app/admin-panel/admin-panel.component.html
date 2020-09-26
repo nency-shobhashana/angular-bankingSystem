@@ -26,7 +26,8 @@
 		  <ng-container matColumnDef="action">
 		    <th mat-header-cell *matHeaderCellDef> Action </th>
 		    <td mat-cell *matCellDef="let element">
-		    	<button mat-icon-button color="warn" aria-label="Example icon button with a delete icon">
+				<button mat-icon-button color="warn" aria-label="Example icon button with a delete icon" 
+				  (click)="deleteData(element.emp_id)">
 		          <mat-icon>delete</mat-icon>
 		        </button>
 		    	<button mat-icon-button color="primary" aria-label="Example icon button with a edit icon">
@@ -45,12 +46,12 @@
 
 		  <ng-container matColumnDef="first_name">
 		    <th mat-header-cell *matHeaderCellDef> First Name </th>
-		    <td mat-cell *matCellDef="let element"> {{element.first_name}} </td>
+		    <td mat-cell *matCellDef="let element"> {{element.f_name}} </td>
 		  </ng-container>
 
 		  <ng-container matColumnDef="last_name">
 		    <th mat-header-cell *matHeaderCellDef> Last Name </th>
-		    <td mat-cell *matCellDef="let element"> {{element.last_name}} </td>
+		    <td mat-cell *matCellDef="let element"> {{element.l_name}} </td>
 		  </ng-container>
 
 		  <ng-container matColumnDef="dob">

@@ -6,6 +6,7 @@ import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { AddEmplyeeComponent } from './add-emplyee/add-emplyee.component';
 import { EmployeePanelComponent } from './employee-panel/employee-panel.component';
 import { AddCustomerComponent } from './add-customer/add-customer.component';
+import { CustomerPanelComponent } from './customer-panel/customer-panel.component';
 
 const routes: Routes = [
 	{path: '', component: LoginComponent},
@@ -13,6 +14,7 @@ const routes: Routes = [
 	{path: 'addEmployee', component: AddEmplyeeComponent},
 	{path: 'employee', component: EmployeePanelComponent},
 	{path: 'addCustomer', component: AddCustomerComponent},
+	{path: 'customer', component: CustomerPanelComponent},
 	// { path: '', redirectTo: '/login', pathMatch: 'full' }
 
 ];
