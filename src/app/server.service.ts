@@ -3,10 +3,11 @@ import { Injectable } from '@angular/core';
 import { delay } from 'rxjs/operators';
 import { switchMap } from 'rxjs/operators';
 import { Observable, throwError, of, from } from 'rxjs';
+import { EmployeeElement } from './add-emplyee/add-emplyee.component';
 
 export const environment = {
   production: false,
-  serverUrl: 'http://localhost:8080'
+  serverUrl: 'http://192.168.0.204:8080'
 };
 
 
@@ -20,35 +21,38 @@ export class ServerService {
 
   private async request(method: string, url: string, data?: any) {
 
-      const result = this.http.request(method, url, {
-        body: data,
-        responseType: 'json',
-        observe: 'body',
-      });
-      return new Promise((resolve, reject) => {
-        result.subscribe(resolve, reject);
-      });
-    }
-   
-    getEvents() {
-      return this.request('GET', `${environment.serverUrl}/event`);
-    }
+    const result = this.http.request(method, url, {
+      body: data,
+      responseType: 'json',
+      observe: 'body',
+    });
+    return new Promise((resolve, reject) => {
+      result.subscribe(resolve, reject);
+    });
+  }
 
-    deleteEvent(event) {
-      return this.request('DELETE', `${environment.serverUrl}/event/${event.id}`);
-    }  
+  getEvents() {
+    return this.request('GET', `${environment.serverUrl}/event`);
+  }
+
+  deleteEvent(event) {
+    return this.request('DELETE', `${environment.serverUrl}/event/${event.id}`);
+  }
 
   auth: number = -1;
+
+
+
   loginAuth = (username: string, password: string) => of({ username, password }).pipe(
-      switchMap((data) =>from(this.request('POST', `${environment.serverUrl}/login`, data)))
+    switchMap((data) => from(this.request('POST', `${environment.serverUrl}/login`, data)))
   );
 
   logout() {
-      this.auth = -1;
-      return of({ status: 'success' }).pipe(delay(1000));
+    this.auth = -1;
+    return of({ status: 'success' }).pipe(delay(1000));
   }
 
-  insertTestData = (user: String, pwd: String) => of({ user, pwd }).pipe(
-      switchMap((data) =>from(this.request('PUT', `${environment.serverUrl}/login`, data)))
+  insertEmployeeData = (data:EmployeeElement) => of(data).pipe(
+    switchMap((body) => from(this.request('PUT', `${environment.serverUrl}/employee`, body)))
   )
 }

@@ -25,14 +25,13 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {emp_id: 100010, first_name: 'John10', last_name: 'Smith10', dob: '12/10/2001', gender: 'Male', address: '12, york road, Hamilnton, US, 458265'},
 ];
 
-
 @Component({
-  selector: 'app-admin-panel',
-  templateUrl: './admin-panel.component.html',
-  styleUrls: ['./admin-panel.component.css']
+  selector: 'app-employee-panel',
+  templateUrl: './employee-panel.component.html',
+  styleUrls: ['./employee-panel.component.css']
 })
-export class AdminPanelComponent implements OnInit {
-	displayedColumns: string[] = ['action', 'emp_id', 'first_name', 'last_name', 'dob', 'gender', 'address'];
+export class EmployeePanelComponent implements OnInit {
+  displayedColumns: string[] = ['action', 'emp_id', 'first_name', 'last_name', 'dob', 'gender', 'address'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -62,8 +61,8 @@ export class AdminPanelComponent implements OnInit {
 export interface DialogData {}
 
 @Component({
-  selector: 'dialog-employee-info',
-  templateUrl: 'dialog-employee-info.html',
+  selector: 'dialog-customer-info',
+  templateUrl: 'dialog-customer-info.html',
 })
 export class DialogEmployeeInfo {
 
@@ -76,4 +75,3 @@ export class DialogEmployeeInfo {
   }
 
 }
-

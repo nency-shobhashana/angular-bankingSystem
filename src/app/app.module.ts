@@ -12,6 +12,10 @@ import { HeaderComponent } from './header/header.component';
 
 import { CustomMaterialModule } from './material-module';
 import { HttpClientModule } from '@angular/common/http';
+import { AddEmplyeeComponent } from './add-emplyee/add-emplyee.component';
+import { EmployeePanelComponent } from './employee-panel/employee-panel.component';
+import { CustomerPanelComponent } from './customer-panel/customer-panel.component';
+import { AddCustomerComponent } from './add-customer/add-customer.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +23,10 @@ import { HttpClientModule } from '@angular/common/http';
     LoginComponent,
     AdminPanelComponent,
     HeaderComponent,
+    AddEmplyeeComponent,
+    EmployeePanelComponent,
+    CustomerPanelComponent,
+    AddCustomerComponent,
   ],
   imports: [
     BrowserModule,

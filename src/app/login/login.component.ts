@@ -19,8 +19,12 @@ export class LoginComponent implements OnInit {
   password: string;
 
   login() {
-    this.serverService.loginAuth(this.username, this.password).subscribe(() => {
-      this.router.navigate(['admin']);
+    this.serverService.loginAuth(this.username, this.password).subscribe((response) => {
+      if(response != null){
+        this.router.navigate(['admin']);
+      }else {
+        alert("Invalid credentials.");
+      }
     },
       () => alert("Invalid credentials."));
   }
