@@ -25,7 +25,8 @@
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="width-100">
                     <mat-label>email</mat-label>
-                    <input matInput placeholder="Last Name" name="Email" [(ngModel)]="data.email">
+                    <input matInput placeholder="Last Name" [formControl]="email" name="Email" [(ngModel)]="data.email" required>
+                    <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="width-100">
                     <mat-label>PAN no</mat-label>

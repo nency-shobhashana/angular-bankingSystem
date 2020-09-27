@@ -12,6 +12,7 @@ export interface EmployeeViewElement {
   dob: string;
   gender: string;
   address: string;
+  contact: number;
 }
 
 const ELEMENT_DATA: EmployeeViewElement[] = [];
@@ -24,7 +25,7 @@ const ELEMENT_DATA: EmployeeViewElement[] = [];
 export class AdminPanelComponent implements OnInit, AfterViewInit {
 
   constructor(public dialog: MatDialog, private serverService: ServerService) { }
-  displayedColumns: string[] = ['action', 'emp_id', 'first_name', 'last_name', 'dob', 'gender', 'address'];
+  displayedColumns: string[] = ['action', 'emp_id', 'first_name', 'last_name', 'dob', 'gender', 'contact', 'address'];
   dataSource = new MatTableDataSource<EmployeeViewElement>(ELEMENT_DATA);
   searchString = '';
 

@@ -116,7 +116,7 @@ export class ServerService {
     switchMap((body) => from(this.request('PUT', `${environment.serverUrl}/account`, body)))
   )
 
-  getAccountData = (accountID: number) => of(accountID).pipe(
+  getAccountData = (accountID: string) => of(accountID).pipe(
     switchMap((id) => from(this.request('GET', `${environment.serverUrl}/account/${id}`, [])))
   )
 
