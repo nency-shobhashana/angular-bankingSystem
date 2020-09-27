@@ -7,6 +7,8 @@ import { AddEmplyeeComponent } from './add-emplyee/add-emplyee.component';
 import { EmployeePanelComponent } from './employee-panel/employee-panel.component';
 import { AddCustomerComponent } from './add-customer/add-customer.component';
 import { CustomerPanelComponent } from './customer-panel/customer-panel.component';
+import { AccountTransactionComponent } from './account-transaction/account-transaction.component';
+import { LoanPaymetsComponent } from './loan-paymets/loan-paymets.component';
 
 const routes: Routes = [
 	{path: '', component: LoginComponent},
@@ -15,8 +17,9 @@ const routes: Routes = [
 	{path: 'employee', component: EmployeePanelComponent},
 	{path: 'addCustomer', component: AddCustomerComponent},
 	{path: 'customer', component: CustomerPanelComponent},
+	{path: 'transaction-details', component: AccountTransactionComponent},
+	{path: 'loan-payments', component: LoanPaymetsComponent},
 	// { path: '', redirectTo: '/login', pathMatch: 'full' }
-
 ];
 
 @NgModule({

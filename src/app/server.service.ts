@@ -79,4 +79,16 @@ export class ServerService {
     switchMap((id) => from(this.request('DELETE', `${environment.serverUrl}/employee/${id}`, [])))
   )
 
+  getCustomerAccData = () => of(1).pipe(
+    switchMap(() => from(this.request('GET', `${environment.serverUrl}/employee`, [])))
+  )
+
+  getAccTransactionData = () => of(1).pipe(
+    switchMap(() => from(this.request('GET', `${environment.serverUrl}/employee`, [])))
+  )
+
+  getLoanPaymentData = () => of(1).pipe(
+    switchMap(() => from(this.request('GET', `${environment.serverUrl}/employee`, [])))
+  )
+
 }

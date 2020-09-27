@@ -5,7 +5,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import { ServerService } from '../server.service';
 
 
-export interface AccountDataViewElement{
+export interface TransactionDataViewElement {
   emp_id: String;
   f_name: string;
   l_name: string;
@@ -14,17 +14,18 @@ export interface AccountDataViewElement{
   address: String;
 }
 
-const ELEMENT_DATA: AccountDataViewElement[] = [];
+const ELEMENT_DATA: TransactionDataViewElement[] = [];
 
 @Component({
-  selector: 'app-customer-panel',
-  templateUrl: './customer-panel.component.html',
-  styleUrls: ['./customer-panel.component.css']
+  selector: 'app-account-transaction',
+  templateUrl: './account-transaction.component.html',
+  styleUrls: ['./account-transaction.component.css']
 })
-export class CustomerPanelComponent implements OnInit {
+
+export class AccountTransactionComponent implements OnInit {
   
-  displayedColumns: string[] = ['action', 'emp_id', 'first_name', 'last_name', 'dob', 'gender', 'address'];
-  dataSource = new MatTableDataSource<AccountDataViewElement>(ELEMENT_DATA);
+  displayedColumns: string[] = ['emp_id', 'first_name', 'last_name', 'dob', 'gender', 'address'];
+  dataSource = new MatTableDataSource<TransactionDataViewElement>(ELEMENT_DATA);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -38,9 +39,9 @@ export class CustomerPanelComponent implements OnInit {
   ngOnInit(): void {}
 
   loadAllData() {
-    this.serverService.getCustomerAccData().subscribe(result => {
+    this.serverService.getAccTransactionData().subscribe(result => {
       if(result != null){
-        this.dataSource = new MatTableDataSource<AccountDataViewElement>(result["data"]);
+        this.dataSource = new MatTableDataSource<TransactionDataViewElement>(result["data"]);
         this.dataSource.paginator = this.paginator;
       }
     },

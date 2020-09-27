@@ -16,6 +16,8 @@ import { AddEmplyeeComponent } from './add-emplyee/add-emplyee.component';
 import { EmployeePanelComponent } from './employee-panel/employee-panel.component';
 import { CustomerPanelComponent } from './customer-panel/customer-panel.component';
 import { AddCustomerComponent } from './add-customer/add-customer.component';
+import { AccountTransactionComponent } from './account-transaction/account-transaction.component';
+import { LoanPaymetsComponent } from './loan-paymets/loan-paymets.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { AddCustomerComponent } from './add-customer/add-customer.component';
     EmployeePanelComponent,
     CustomerPanelComponent,
     AddCustomerComponent,
+    AccountTransactionComponent,
+    LoanPaymetsComponent,
   ],
   imports: [
     BrowserModule,
