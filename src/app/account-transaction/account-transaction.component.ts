@@ -39,7 +39,7 @@ export class AccountTransactionComponent implements OnInit {
   ngOnInit(): void {}
 
   loadAllData() {
-    this.serverService.getAccTransactionData().subscribe(result => {
+    this.serverService.getAllTransactionDataOfAccount(1).subscribe(result => {
       if(result != null){
         this.dataSource = new MatTableDataSource<TransactionDataViewElement>(result["data"]);
         this.dataSource.paginator = this.paginator;

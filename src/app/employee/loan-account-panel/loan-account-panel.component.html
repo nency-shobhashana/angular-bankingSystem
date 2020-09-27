@@ -1,0 +1,93 @@
+<app-header></app-header>
+
+<div class="content" role="main">
+
+
+</div>
+<div class="custom-container">
+	<h1>Welcome to Loan Account Panel</h1>
+	<div class="example-button-row bottom-p20">
+		<a routerLink="/employee/AddLoanAccount" routerLinkActive="active" mat-raised-button color="primary">Add new Loan Account</a>
+	</div>
+
+	<div class="example-button-row bottom-p20">
+
+	</div>
+
+	<div class="example-container">
+		<mat-form-field appearance="fill">
+			<mat-label>Search Account</mat-label>
+			<input matInput placeholder="Search by Customer name">
+		</mat-form-field>
+		<a routerLink="/admin" routerLinkActive="active" mat-raised-button color="accent" class="right-l20">Search</a>
+	</div>
+	<div class="mat-elevation-z8">
+		<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" margin>
+			<ng-container matColumnDef="action">
+				<th mat-header-cell *matHeaderCellDef> Action </th>
+				<td mat-cell *matCellDef="let element">
+					<button mat-icon-button color="warn" aria-label="Example icon button with a delete icon"
+						(click)="deleteData(element.emp_id)">
+						<mat-icon>delete</mat-icon>
+					</button>
+					<button mat-icon-button color="primary" aria-label="Example icon button with a edit icon">
+						<mat-icon>edit</mat-icon>
+					</button>
+					<button mat-icon-button color="primary" aria-label="Example icon button with a info icon"
+						(click)="openDialog()">
+						<mat-icon>info</mat-icon>
+					</button>
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="loan_id">
+				<th mat-header-cell *matHeaderCellDef> Load Account No </th>
+				<td mat-cell *matCellDef="let element"> {{element.loan_id}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="loan_type">
+				<th mat-header-cell *matHeaderCellDef> Load Acount Type </th>
+				<td mat-cell *matCellDef="let element"> {{element.loan_type}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="status">
+				<th mat-header-cell *matHeaderCellDef> Status </th>
+				<td mat-cell *matCellDef="let element"> {{element.status}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="interest">
+				<th mat-header-cell *matHeaderCellDef> Interest </th>
+				<td mat-cell *matCellDef="let element"> {{element.interest}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="duration">
+				<th mat-header-cell *matHeaderCellDef> Duration </th>
+				<td mat-cell *matCellDef="let element"> {{element.duration}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="amount">
+				<th mat-header-cell *matHeaderCellDef> amount </th>
+				<td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="remain_amt">
+				<th mat-header-cell *matHeaderCellDef> Remaining Amount </th>
+				<td mat-cell *matCellDef="let element"> {{element.remain_amt}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="start_date">
+				<th mat-header-cell *matHeaderCellDef> Started Date </th>
+				<td mat-cell *matCellDef="let element"> {{element.start_date}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="cust_id">
+				<th mat-header-cell *matHeaderCellDef> Customer Id </th>
+				<td mat-cell *matCellDef="let element"> {{element.cust_id}} </td>
+			</ng-container>
+
+			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+		</table>
+		<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+	</div>
+</div>

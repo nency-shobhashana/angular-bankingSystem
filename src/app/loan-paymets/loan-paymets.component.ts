@@ -6,12 +6,12 @@ import { ServerService } from '../server.service';
 
 
 export interface LoanPaymentViewElement {
-  emp_id: String;
+  emp_id: string;
   f_name: string;
   l_name: string;
   dob: string;
   gender: string;
-  address: String;
+  address: string;
 }
 
 const ELEMENT_DATA: LoanPaymentViewElement[] = [];
@@ -22,7 +22,7 @@ const ELEMENT_DATA: LoanPaymentViewElement[] = [];
   templateUrl: './loan-paymets.component.html',
   styleUrls: ['./loan-paymets.component.css']
 })
-export class LoanPaymetsComponent implements OnInit {
+export class LoanPaymetsComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['emp_id', 'first_name', 'last_name', 'dob', 'gender', 'address'];
   dataSource = new MatTableDataSource<LoanPaymentViewElement>(ELEMENT_DATA);
@@ -31,15 +31,15 @@ export class LoanPaymetsComponent implements OnInit {
 
   constructor(public dialog: MatDialog, private serverService: ServerService) { }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void{
     this.loadAllData();
     this.dataSource.paginator = this.paginator;
   }
 
   ngOnInit(): void {}
 
-  loadAllData() {
-    this.serverService.getLoanPaymentData().subscribe(result => {
+  loadAllData(): void {
+    this.serverService.getAllPaymentDataOfLoanAccount(0).subscribe(result => {
       if(result != null){
         this.dataSource = new MatTableDataSource<LoanPaymentViewElement>(result["data"]);
         this.dataSource.paginator = this.paginator;

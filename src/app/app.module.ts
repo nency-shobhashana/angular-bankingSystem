@@ -13,11 +13,19 @@ import { HeaderComponent } from './header/header.component';
 import { CustomMaterialModule } from './material-module';
 import { HttpClientModule } from '@angular/common/http';
 import { AddEmplyeeComponent } from './add-emplyee/add-emplyee.component';
-import { EmployeePanelComponent } from './employee-panel/employee-panel.component';
+import { EmployeePanelComponent } from './employee/employee-panel/employee-panel.component';
 import { CustomerPanelComponent } from './customer-panel/customer-panel.component';
-import { AddCustomerComponent } from './add-customer/add-customer.component';
 import { AccountTransactionComponent } from './account-transaction/account-transaction.component';
 import { LoanPaymetsComponent } from './loan-paymets/loan-paymets.component';
+import { AddCustomerComponent } from './employee/add-customer/add-customer.component';
+import { AddAccountComponent } from './employee/add-account/add-account.component';
+import { AddLoanAccountComponent } from './employee/add-loan-account/add-loan-account.component';
+import { AddCreditcardComponent } from './employee/add-creditcard/add-creditcard.component';
+import { AddDebitcardComponent } from './employee/add-debitcard/add-debitcard.component';
+import { DebitcardPanelComponent } from './employee/debitcard-panel/debitcard-panel.component';
+import { CreditcardPanelComponent } from './employee/creditcard-panel/creditcard-panel.component';
+import { LoanAccountPanelComponent } from './employee/loan-account-panel/loan-account-panel.component';
+import { AccountPanelComponent } from './employee/account-panel/account-panel.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +39,14 @@ import { LoanPaymetsComponent } from './loan-paymets/loan-paymets.component';
     AddCustomerComponent,
     AccountTransactionComponent,
     LoanPaymetsComponent,
+    AddAccountComponent,
+    AddLoanAccountComponent,
+    AddCreditcardComponent,
+    AddDebitcardComponent,
+    DebitcardPanelComponent,
+    CreditcardPanelComponent,
+    LoanAccountPanelComponent,
+    AccountPanelComponent,
   ],
   imports: [
     BrowserModule,

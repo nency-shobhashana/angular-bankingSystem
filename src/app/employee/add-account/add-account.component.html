@@ -1,0 +1,47 @@
+<app-header></app-header>
+
+<div class="content" role="main">
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6"></div>
+        <div class="col-md-6"></div>
+    </div>
+</div>
+
+<div style="display: inline-block; width: 100%; text-align: center;">
+    <mat-card style="width: 40%; margin: 0 auto;">
+        <h2 class="text-center">Add New Account</h2>
+        <form>
+            <div class="example-container">
+                <mat-form-field appearance="fill" class="width-100">
+                    <mat-label>Account Type</mat-label>
+                    <input matInput placeholder="First Name" name="FirstName" [(ngModel)]="data.acc_type">
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="width-100">
+                    <mat-label>Account Balance</mat-label>
+                    <input matInput placeholder="Last Name" name="LastName" [(ngModel)]="data.acc_bal">
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="width-100">
+                    <mat-label>Created Date</mat-label>
+                    <input matInput [matDatepicker]="picker3" [formControl]="serializedDate" [(ngModel)]="data.createdDate"
+                        name="dob">
+                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                    <mat-datepicker #picker3>
+                    </mat-datepicker>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="width-100">
+                    <mat-label>Customer Id</mat-label>
+                    <input matInput placeholder="Street" name="Street" [(ngModel)]="data.cust_id">
+                </mat-form-field>
+
+                <div class="example-button-row text-center">
+                    <button mat-raised-button color="primary" class="right-m20" type="submit"
+                        (click)="addAccount()">Add Account</button>
+                    <a routerLink="/employee/AccountPanel" mat-raised-button color="warn">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </mat-card>
+</div>
