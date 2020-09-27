@@ -5,15 +5,15 @@ import * as Connection from 'mysql2/typings/mysql/lib/Connection';
 import { RouterModule } from './routerModule';
 
 export const loginRouter = (events: RouterModule) => {
-  
+
   events.postRequest(
     '/login',
-    'SELECT username from login where username = ? and password = ?',
-    (req: express.Request) => { return [req.body.username, req.body.password] }
+    'SELECT username, role, loginId from login where username = ? and password = ?',
+    (req: express.Request) => [req.body.username, req.body.password]
   );
 
   events.putRequest(
     '/login',
-    'INSERT INTO login (username, password) VALUES (?,?)',
-    (req: express.Request) => { return [req.body.username, req.body.password] });
+    'INSERT INTO login(username,password,role,loginId) values (?, ?,?,?)',
+    (req: express.Request) => [req.body.username, req.body.password]);
 };

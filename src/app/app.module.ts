@@ -28,6 +28,8 @@ import { LoanAccountPanelComponent } from './employee/loan-account-panel/loan-ac
 import { AccountPanelComponent } from './employee/account-panel/account-panel.component';
 import { AddTransactionComponent } from './add-transaction/add-transaction.component';
 import { AddPaymentComponent } from './add-payment/add-payment.component';
+import { ApproveAccountComponent } from './approve-account/approve-account.component';
+import { ApproveLoanComponent } from './approve-loan/approve-loan.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,8 @@ import { AddPaymentComponent } from './add-payment/add-payment.component';
     AccountPanelComponent,
     AddTransactionComponent,
     AddPaymentComponent,
+    ApproveAccountComponent,
+    ApproveLoanComponent,
   ],
   imports: [
     BrowserModule,

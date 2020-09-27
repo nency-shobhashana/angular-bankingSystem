@@ -9,24 +9,30 @@ import { ServerService } from '../server.service';
 })
 export class LoginComponent implements OnInit {
   hide = true;
+  username: string;
+  password: string;
 
   constructor(private router: Router, private serverService: ServerService) { }
 
   ngOnInit(): void {
   }
 
-  username: string;
-  password: string;
-
-  login() {
+  login(): void {
     this.serverService.loginAuth(this.username, this.password).subscribe((response) => {
-      if(response != null){
-        this.router.navigate(['admin']);
-      }else {
-        alert("Invalid credentials.");
+      if (response != null) {
+        this.serverService.loginId = response['data']['loginId'];
+        if (response['data']['role'] === '0') {
+          this.router.navigate(['admin']);
+        } else if (response['data']['role'] === '1') {
+          this.router.navigate(['employee']);
+        } else {
+          this.router.navigate(['customer']);
+        }
+      } else {
+        alert('Invalid credentials.');
       }
     },
-      () => alert("Invalid credentials."));
+      () => alert('Invalid credentials.'));
   }
 
 }

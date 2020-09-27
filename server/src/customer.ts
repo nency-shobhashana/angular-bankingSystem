@@ -20,9 +20,18 @@ export const customerRouter = (events) => {
     (req: express.Request) => [req.params.id]
   );
 
-  events.putRequest(
+  events.putRequestMultiQuery(
     '/customer',
-    'INSERT INTO customer (f_name, l_name, email, pan_no, dob, gender, state, city, street, pin) VALUES (?,?,?,?,?,?,?,?,?,?)',
+    `INSERT INTO customer (f_name, l_name, email, pan_no, dob, gender, state, city, street, pin) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+    INSERT INTO login(username,password,role,loginId)
+    values
+    (concat('cust_', LAST_INSERT_ID()),
+    concat(char(round(rand()*25)+97), char(round(rand()*25)+97),char(round(rand()*25)+97),char(round(rand()*25)+97),char(round(rand()*25)+97),char(round(rand()*25)+97)),
+    '2',
+    LAST_INSERT_ID()
+    );
+    `,
     (req: express.Request) => {
       return [
         req.body.f_name,

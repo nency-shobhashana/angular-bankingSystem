@@ -5,24 +5,25 @@ export const loanAccountRouter = (events) => {
 
   events.getRequest(
     '/loan_account',
-    `SELECT * from loan_account`
+    `SELECT * from loan_account WHERE loan_id IN ( SELECT loan_id from approvedLoan WHERE approved = 1 )`
     , () => []);
 
   events.getRequest(
     '/loan_account/customer/:id',
-    `SELECT * from loan_account WHERE cust_id = ?`,
+    `SELECT * from loan_account WHERE cust_id = ? AND loan_id IN ( SELECT loan_id from approvedLoan WHERE approved = 1 )`,
     (req: express.Request) => [req.params.id]
   );
 
   events.getRequest(
     '/loan_account/:id',
-    `SELECT * from loan_account WHERE loan_id = ?`,
+    `SELECT * from loan_account WHERE loan_id = ? AND loan_id IN ( SELECT loan_id from approvedLoan WHERE approved = 1 )`,
     (req: express.Request) => [req.params.id]
   );
 
   events.putRequest(
     '/loan_account',
-    'INSERT INTO loan_account ( loan_type, interest, duration, amount, start_date, remain_amt, status, cust_id) VALUES (?,?,?,?,?,?,?,?)',
+    `INSERT INTO loan_account ( loan_type, interest, duration, amount, start_date, remain_amt, status, cust_id) VALUES (?,?,?,?,?,?,?,?);
+    INSERT INTO approvedLoan ( loan_id, emp_id, approved) VALUES (LAST_INSERT_ID(), ?, 0);`,
     (req: express.Request) => {
       return [
         req.body.loan_type,
@@ -38,7 +39,7 @@ export const loanAccountRouter = (events) => {
 
   events.deleteRequest(
     '/loan_account/:id',
-    'DELETE FROM loan_account WHERE loan_id = ?',
+    `DELETE FROM loan_account WHERE loan_id = ?`,
     (req: express.Request) => [req.params.id]
   );
 

@@ -47,7 +47,7 @@ export class CustomerPanelComponent implements OnInit, AfterViewInit {
   ngOnInit(): void { }
 
   loadCustomerData(): void {
-    this.serverService.getCustomerData('1').subscribe(result => {
+    this.serverService.getCustomerData(this.serverService.loginId).subscribe(result => {
       if (result != null) {
         console.log(result);
         this.dataSource = result['data'][0];
@@ -57,7 +57,7 @@ export class CustomerPanelComponent implements OnInit, AfterViewInit {
   }
 
   loadAccountData(): void {
-    this.serverService.getAllAccountDataOfCustomer('1').subscribe(result => {
+    this.serverService.getAllAccountDataOfCustomer(this.serverService.loginId).subscribe(result => {
       if (result != null) {
         this.accountDataSource = new MatTableDataSource<AccountDataViewElement>(result['data']);
         this.accountDataSource.paginator = this.accountPaginator;
@@ -67,7 +67,7 @@ export class CustomerPanelComponent implements OnInit, AfterViewInit {
   }
 
   loadLoanAccountData(): void {
-    this.serverService.getAllLoanAccountDataOfCustomer('1').subscribe(result => {
+    this.serverService.getAllLoanAccountDataOfCustomer(this.serverService.loginId).subscribe(result => {
       if (result != null) {
         this.loanDataSource = new MatTableDataSource<LoanAccountDataViewElement>(result['data']);
         this.loanDataSource.paginator = this.loanPaginator;
@@ -77,7 +77,7 @@ export class CustomerPanelComponent implements OnInit, AfterViewInit {
   }
 
   loadDebitcardData(): void {
-    this.serverService.getAllDebitcardDataOfCustomer('1').subscribe(result => {
+    this.serverService.getAllDebitcardDataOfCustomer(this.serverService.loginId).subscribe(result => {
       if (result != null) {
         this.debitcardDataSource = new MatTableDataSource<DebitcardDataViewElement>(result['data']);
         this.debitcardDataSource.paginator = this.debitPaginator;
@@ -87,7 +87,7 @@ export class CustomerPanelComponent implements OnInit, AfterViewInit {
   }
 
   loadCreditcardData(): void {
-    this.serverService.getAllCreditcardDataOfCustomer('1').subscribe(result => {
+    this.serverService.getAllCreditcardDataOfCustomer(this.serverService.loginId).subscribe(result => {
       if (result != null) {
         this.creditcardDataSource = new MatTableDataSource<CreditcardDataViewElement>(result['data']);
         this.creditcardDataSource.paginator = this.creditPaginator;

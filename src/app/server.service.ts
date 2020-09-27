@@ -26,8 +26,7 @@ export class ServerService {
 
   constructor(private http: HttpClient) {
   }
-
-  auth = -1;
+  loginId = '0';
 
   private async request(method: string, url: string, data?: any) {
 
@@ -54,7 +53,7 @@ export class ServerService {
   )
 
   logout() {
-    this.auth = -1;
+    this.loginId = '0';
     return of({ status: 'success' }).pipe(delay(1000));
   }
 
@@ -113,7 +112,10 @@ export class ServerService {
   )
 
   insertAccountData = (data: AccountElement) => of(data).pipe(
-    switchMap((body) => from(this.request('PUT', `${environment.serverUrl}/account`, body)))
+    switchMap((body) => {
+      body['emp_id'] = this.loginId;
+      return from(this.request('PUT', `${environment.serverUrl}/account`, body));
+    })
   )
 
   getAccountData = (accountID: string) => of(accountID).pipe(
@@ -139,7 +141,10 @@ export class ServerService {
   )
 
   insertLoanAccountData = (data: LoanAccountElement) => of(data).pipe(
-    switchMap((body) => from(this.request('PUT', `${environment.serverUrl}/loan_account`, body)))
+    switchMap((body) =>{
+      body['emp_id'] = this.loginId;
+      return from(this.request('PUT', `${environment.serverUrl}/loan_account`, body));
+    })
   )
 
   getLoanAccountData = (accountID: string) => of(accountID).pipe(
@@ -226,7 +231,7 @@ export class ServerService {
     switchMap((id) => from(this.request('GET', `${environment.serverUrl}/transaction/${id}`, [])))
   )
 
-  getAllTransactionDataOfAccount = (accountID: String) => of(accountID).pipe(
+  getAllTransactionDataOfAccount = (accountID: string) => of(accountID).pipe(
     switchMap((id) => from(this.request('GET', `${environment.serverUrl}/transaction/account/${id}`, [])))
   )
 
@@ -261,5 +266,20 @@ export class ServerService {
 
   deletePaymentData = (cardId: number) => of(cardId).pipe(
     switchMap((id) => from(this.request('DELETE', `${environment.serverUrl}/payment/${id}`, [])))
+  )
+
+  /******* approve account */
+  getAllNonApproveAccountData = () => of(1).pipe(
+    switchMap(() => from(this.request('GET', `${environment.serverUrl}/nonApproveAccount`, [])))
+  )
+  approveAccount = (accNo: number, managerId: string) => of({acc_no: accNo, managerId}).pipe(
+    switchMap((body) => from(this.request('POST', `${environment.serverUrl}/approveAccount`, body)))
+  )
+
+  getAllNonApproveLoanData = () => of(1).pipe(
+    switchMap(() => from(this.request('GET', `${environment.serverUrl}/nonApproveLoan`, [])))
+  )
+  approveLoan = (loanId: number, managerId: string) => of({loan_id: loanId, managerId}).pipe(
+    switchMap((body) => from(this.request('POST', `${environment.serverUrl}/approveLoan`, body)))
   )
 }

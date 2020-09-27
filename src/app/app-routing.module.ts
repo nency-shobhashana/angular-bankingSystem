@@ -19,11 +19,15 @@ import { LoanAccountPanelComponent } from './employee/loan-account-panel/loan-ac
 import { AccountPanelComponent } from './employee/account-panel/account-panel.component';
 import { AddTransactionComponent } from './add-transaction/add-transaction.component';
 import { AddPaymentComponent } from './add-payment/add-payment.component';
+import { ApproveAccountComponent } from './approve-account/approve-account.component';
+import { ApproveLoanComponent } from './approve-loan/approve-loan.component';
 
 
 const routes: Routes = [
     { path: '', component: LoginComponent },
     { path: 'admin', component: AdminPanelComponent },
+    { path: 'approveAccount', component: ApproveAccountComponent },
+    { path: 'approveLoan', component: ApproveLoanComponent },
     { path: 'addEmployee', component: AddEmplyeeComponent },
     { path: 'employeeDetail/:id', component: AddEmplyeeComponent },
 

@@ -10,6 +10,7 @@ import { creditcardRouter } from './creditcard';
 import { debitcardRouter } from './debitcard';
 import { paymentRouter } from './payment';
 import { transactionRouter } from './transaction';
+import { approveAccountRouter } from './appoveAccount';
 
 export class RouterModule {
   db: Connection;
@@ -84,6 +85,28 @@ export class RouterModule {
     });
   }
 
+  putRequestMultiQuery = (path: string, query: string, values: (request: express.Request) => string[]) => {
+    this.router.put(path, (req, res) => {
+      this.db.query(
+        query,
+        values(req),
+        (error, result: ResultSetHeader) => {
+          console.log('/***********/');
+          console.log(query);
+          console.log(result);
+          console.log('/***********/');
+          if (error) {
+            console.log(error);
+            res.status(500).json({ status: 'error' });
+          } else {
+            console.log(result);
+            res.status(200).json({ data: result.insertId });
+          }
+        }
+      );
+    });
+  }
+
   deleteRequest = (path: string, query: string, values: (request: express.Request) => string[]) => {
     this.router.delete(path, (req, res) => {
       this.db.query(
@@ -114,18 +137,7 @@ export class RouterModule {
     debitcardRouter(this);
     transactionRouter(this);
     paymentRouter(this);
-
-    // this.db.query(
-    //   ``,
-    //   [],
-    //   (error, result) => {
-    //     if (error) {
-    //       console.error(error);
-    //     } else {
-    //       console.log(result);
-    //     }
-    //   }
-    // );
+    approveAccountRouter(this);
 
     return this.router;
   }

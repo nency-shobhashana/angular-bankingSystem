@@ -53,7 +53,7 @@ export class AccountTransactionComponent implements OnInit {
     })
   }
 
-  loadAllData(accId: String) {
+  loadAllData(accId: string) {
     this.serverService.getAllTransactionDataOfAccount(accId).subscribe(result => {
       if (result != null) {
         this.dataSource = new MatTableDataSource<TransactionDataViewElement>(result["data"]);

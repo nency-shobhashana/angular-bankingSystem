@@ -8,7 +8,8 @@ const connection = mysql.createConnection({
     host: '192.168.0.205',
     user: 'banking_admin',
     password: 'nenu',
-    database: 'cbd_banking'
+    database: 'cbd_banking',
+    multipleStatements: true
 });
 
 const port = process.env.PORT || 8080;

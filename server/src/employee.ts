@@ -21,9 +21,17 @@ export const employeeRouter = (events) => {
     (req: express.Request) => []
   );
 
-  events.putRequest(
+  events.putRequestMultiQuery(
     '/employee',
-    'INSERT INTO employee (f_name, l_name, contact, dob, gender, state, city, street, pin) VALUES (?,?,?,?,?,?,?,?,?)',
+    `INSERT INTO employee (f_name, l_name, contact, dob, gender, state, city, street, pin) VALUES (?,?,?,?,?,?,?,?,?);
+
+    INSERT INTO login(username,password,role,loginId)
+    values
+    (concat('emp_', LAST_INSERT_ID()) ,
+    concat(char(round(rand()*25)+97), char(round(rand()*25)+97),char(round(rand()*25)+97),char(round(rand()*25)+97),char(round(rand()*25)+97),char(round(rand()*25)+97)),
+    '1',
+    LAST_INSERT_ID()
+    );`,
     (req: express.Request) => {
       return [
         req.body.f_name,

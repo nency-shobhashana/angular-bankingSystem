@@ -37,7 +37,7 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void { }
-
+  
   loadAllData(): void {
     this.serverService.getAllEmployeeData().subscribe(result => {
       if (result != null) {
