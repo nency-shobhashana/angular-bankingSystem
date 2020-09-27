@@ -11,7 +11,7 @@ import { ServerService } from '../server.service';
 })
 export class CustomerPanelComponent implements OnInit, AfterViewInit {
   
-  dataSource = new MatTableDataSource<CustomerDataViewElement>(CUSTOMER_ELEMENT_DATA);
+  dataSource: CustomerDataViewElement;
 
   accountDisplayedColumns: string[] = ['action', 'acc_no', 'acc_type', 'acc_bal', 'createdDate'];
   accountDataSource = new MatTableDataSource<AccountDataViewElement>(ACCOUNT_ELEMENT_DATA);
@@ -19,10 +19,10 @@ export class CustomerPanelComponent implements OnInit, AfterViewInit {
   loanDisplayedColumns: string[] = ['action', 'loan_id','loan_type','status','interest','duration','amount','remain_amt','start_date'];
   loanDataSource = new MatTableDataSource<LoanAccountDataViewElement>(LOAN_ACCOUNT_ELEMENT_DATA);
 
-  debitDisplayedColumns: string[] = ['action', 'debit_id','holder_name','debit_no','exp_date','cvv','acc_id'];
+  debitDisplayedColumns: string[] = ['holder_name','debit_no','exp_date','cvv','acc_id'];
   debitcardDataSource = new MatTableDataSource<DebitcardDataViewElement>(DEBIT_CARD_ELEMENT_DATA);
 
-  creditDisplayedColumns: string[] = ['action', 'credit_id', 'holder_name', 'credit_no', 'exp_date', 'cvv', 'cust_id'];
+  creditDisplayedColumns: string[] = ['holder_name', 'credit_no', 'exp_date', 'cvv', 'cust_id'];
   creditcardDataSource = new MatTableDataSource<CreditcardDataViewElement>(CREDIT_CARD_ELEMENT_DATA);
 
   @ViewChild(MatPaginator) accountPaginator: MatPaginator;
@@ -33,8 +33,11 @@ export class CustomerPanelComponent implements OnInit, AfterViewInit {
   constructor(public dialog: MatDialog, private serverService: ServerService) { }
 
   ngAfterViewInit():void  {
+    this.loadCustomerData();
     this.loadAccountData();
     this.loadLoanAccountData();
+    this.loadDebitcardData();
+    this.loadCreditcardData();
     this.accountDataSource.paginator = this.accountPaginator;
     this.loanDataSource.paginator = this.loanPaginator;
     this.debitcardDataSource.paginator = this.debitPaginator;
@@ -46,7 +49,8 @@ export class CustomerPanelComponent implements OnInit, AfterViewInit {
   loadCustomerData(): void {
     this.serverService.getCustomerData(1).subscribe(result => {
       if(result != null){
-        this.dataSource = new MatTableDataSource<CustomerDataViewElement>(result["data"]);
+        console.log(result);
+        this.dataSource = result["data"][0];
       }
     },
       () => alert("Invalid credentials."));
@@ -73,7 +77,7 @@ export class CustomerPanelComponent implements OnInit, AfterViewInit {
   }
   
   loadDebitcardData(): void {
-    this.serverService.getAllLoanAccountDataOfCustomer(1).subscribe(result => {
+    this.serverService.getAllDebitcardDataOfCustomer(1).subscribe(result => {
       if(result != null){
         this.debitcardDataSource = new MatTableDataSource<DebitcardDataViewElement>(result["data"]);
         this.debitcardDataSource.paginator = this.debitPaginator;
@@ -83,7 +87,7 @@ export class CustomerPanelComponent implements OnInit, AfterViewInit {
   }
 
   loadCreditcardData(): void {
-    this.serverService.getAllLoanAccountDataOfCustomer(1).subscribe(result => {
+    this.serverService.getAllCreditcardDataOfCustomer(1).subscribe(result => {
       if(result != null){
         this.creditcardDataSource = new MatTableDataSource<CreditcardDataViewElement>(result["data"]);
         this.creditcardDataSource.paginator = this.creditPaginator;
@@ -94,13 +98,15 @@ export class CustomerPanelComponent implements OnInit, AfterViewInit {
 }
 
 export interface CustomerDataViewElement{
-  acc_no: string;
-  acc_type: string;
-  acc_bal: string;
-  createdDate: string;
   cust_id: string;
+  f_name: string;
+  l_name: string;
+  email: string;
+  pan_no: string;
+  dob: string;
+  gender: string;
+  address: string;
 }
-const CUSTOMER_ELEMENT_DATA: CustomerDataViewElement[] = [];
 
 export interface AccountDataViewElement{
   acc_no: string;

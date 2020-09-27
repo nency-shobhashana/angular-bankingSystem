@@ -2,16 +2,15 @@ import { Component, OnInit, AfterViewInit, ViewChild, Inject } from '@angular/co
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { throwError } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { ServerService } from '../server.service';
 
 
 export interface LoanPaymentViewElement {
-  emp_id: string;
-  f_name: string;
-  l_name: string;
-  dob: string;
-  gender: string;
-  address: string;
+  pay_date: string;
+  pay_amt: 0;
 }
 
 const ELEMENT_DATA: LoanPaymentViewElement[] = [];
@@ -24,22 +23,35 @@ const ELEMENT_DATA: LoanPaymentViewElement[] = [];
 })
 export class LoanPaymetsComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['emp_id', 'first_name', 'last_name', 'dob', 'gender', 'address'];
+  displayedColumns: string[] = ['pay_date', 'pay_amt'];
   dataSource = new MatTableDataSource<LoanPaymentViewElement>(ELEMENT_DATA);
-
+  accountNo = ''
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(public dialog: MatDialog, private serverService: ServerService) { }
+  constructor(public dialog: MatDialog, private route: ActivatedRoute, private serverService: ServerService) { }
 
   ngAfterViewInit(): void{
-    this.loadAllData();
     this.dataSource.paginator = this.paginator;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.paramMap.pipe(
+      switchMap((params: ParamMap) => {
+        const id = params.get('id')
+        if (id != null) {
+          return id
+        } else {
+          throwError('');
+        }
+      })
+    ).subscribe(accId => {
+      this.accountNo = accId;
+      this.loadAllData(accId)
+    })
+  }
 
-  loadAllData(): void {
-    this.serverService.getAllPaymentDataOfLoanAccount(0).subscribe(result => {
+  loadAllData(accountId: string): void {
+    this.serverService.getAllPaymentDataOfLoanAccount(accountId).subscribe(result => {
       if(result != null){
         this.dataSource = new MatTableDataSource<LoanPaymentViewElement>(result["data"]);
         this.dataSource.paginator = this.paginator;

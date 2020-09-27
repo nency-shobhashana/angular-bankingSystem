@@ -1,17 +1,19 @@
 import { Component, OnInit, AfterViewInit, ViewChild, Inject } from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { throwError } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { ServerService } from '../server.service';
 
 
 export interface TransactionDataViewElement {
-  emp_id: String;
-  f_name: string;
-  l_name: string;
-  dob: string;
-  gender: string;
-  address: String;
+  trans_id: number;
+  trans_date: string;
+  trans_amt: number;
+  trans_type: string;
+  acc_no: number;
 }
 
 const ELEMENT_DATA: TransactionDataViewElement[] = [];
@@ -23,29 +25,42 @@ const ELEMENT_DATA: TransactionDataViewElement[] = [];
 })
 
 export class AccountTransactionComponent implements OnInit {
-  
-  displayedColumns: string[] = ['emp_id', 'first_name', 'last_name', 'dob', 'gender', 'address'];
-  dataSource = new MatTableDataSource<TransactionDataViewElement>(ELEMENT_DATA);
 
+  displayedColumns: string[] = ['trans_id', 'trans_date', 'trans_amt', 'trans_type', 'acc_no'];
+  dataSource = new MatTableDataSource<TransactionDataViewElement>(ELEMENT_DATA);
+  accountNo = ''
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(public dialog: MatDialog, private serverService: ServerService) { }
+  constructor(public dialog: MatDialog, private route: ActivatedRoute, private serverService: ServerService) { }
 
   ngAfterViewInit() {
-    this.loadAllData();
     this.dataSource.paginator = this.paginator;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.paramMap.pipe(
+      switchMap((params: ParamMap) => {
+        const id = params.get('id')
+        if (id != null) {
+          return id
+        } else {
+          throwError('');
+        }
+      })
+    ).subscribe(accId => {
+      this.accountNo = accId;
+      this.loadAllData(accId)
+    })
+  }
 
-  loadAllData() {
-    this.serverService.getAllTransactionDataOfAccount(1).subscribe(result => {
-      if(result != null){
+  loadAllData(accId: String) {
+    this.serverService.getAllTransactionDataOfAccount(accId).subscribe(result => {
+      if (result != null) {
         this.dataSource = new MatTableDataSource<TransactionDataViewElement>(result["data"]);
         this.dataSource.paginator = this.paginator;
       }
     },
-      () => alert("Invalid credentials."));
+      () => alert("Invalid Data."));
   }
 
 }

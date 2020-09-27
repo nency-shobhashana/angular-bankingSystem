@@ -10,6 +10,8 @@ import { AccountElement } from './employee/add-account/add-account.component';
 import { LoanAccountElement } from './employee/add-loan-account/add-loan-account.component';
 import { DebitcardElement } from './employee/add-debitcard/add-debitcard.component';
 import { CreditcardElement } from './employee/add-creditcard/add-creditcard.component';
+import { TransactionElement } from './add-transaction/add-transaction.component';
+import { PaymentElement } from './add-payment/add-payment.component';
 
 export const environment = {
   production: false,
@@ -179,9 +181,9 @@ export class ServerService {
   )
 
   /**** transaction  *****/
-  // insertTransactionData = (data: TransactionElement) => of(data).pipe(
-  //   switchMap((body) => from(this.request('PUT', `${environment.serverUrl}/transaction`, body)))
-  // )
+  insertTransactionData = (data: TransactionElement) => of(data).pipe(
+    switchMap((body) => from(this.request('PUT', `${environment.serverUrl}/transaction`, body)))
+  )
 
   getAllTransactionData = () => of(1).pipe(
     switchMap(() => from(this.request('GET', `${environment.serverUrl}/transaction`, [])))
@@ -191,7 +193,7 @@ export class ServerService {
     switchMap((id) => from(this.request('GET', `${environment.serverUrl}/transaction/${id}`, [])))
   )
 
-  getAllTransactionDataOfAccount = (accountID: number) => of(accountID).pipe(
+  getAllTransactionDataOfAccount = (accountID: String) => of(accountID).pipe(
     switchMap((id) => from(this.request('GET', `${environment.serverUrl}/transaction/account/${id}`, [])))
   )
 
@@ -204,9 +206,9 @@ export class ServerService {
   )
 
   /**** payment *****/
-  // insertPaymentData = (data: PaymentElement) => of(data).pipe(
-  //   switchMap((body) => from(this.request('PUT', `${environment.serverUrl}/payment`, body)))
-  // )
+  insertPaymentData = (data: PaymentElement) => of(data).pipe(
+    switchMap((body) => from(this.request('PUT', `${environment.serverUrl}/payment`, body)))
+  )
 
   getAllPaymentData = () => of(1).pipe(
     switchMap(() => from(this.request('GET', `${environment.serverUrl}/payment`, [])))
@@ -216,7 +218,7 @@ export class ServerService {
     switchMap((id) => from(this.request('GET', `${environment.serverUrl}/payment/${id}`, [])))
   )
 
-  getAllPaymentDataOfLoanAccount = (accountID: number) => of(accountID).pipe(
+  getAllPaymentDataOfLoanAccount = (accountID: string) => of(accountID).pipe(
     switchMap((id) => from(this.request('GET', `${environment.serverUrl}/payment/loan/${id}`, [])))
   )
 

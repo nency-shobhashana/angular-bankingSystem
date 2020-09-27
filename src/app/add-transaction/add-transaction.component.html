@@ -1,0 +1,45 @@
+<app-header></app-header>
+
+<div class="content" role="main">
+</div>
+
+
+<div style="display: inline-block; width: 100%; text-align: center;">
+    <mat-card style="width: 40%; margin: 0 auto;">
+        <h2 class="text-center">Add New Transaction</h2>
+        <form>
+            <div class="example-container">
+                <mat-form-field appearance="fill" class="width-100">
+                    <mat-label>Transaction Date</mat-label>
+                    <input matInput [matDatepicker]="picker3" [formControl]="serializedDate" [(ngModel)]="data.trans_date"
+                        name="dob">
+                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                    <mat-datepicker #picker3>
+                    </mat-datepicker>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="width-100">
+                    <mat-label>Transaction Amount</mat-label>
+                    <input matInput placeholder="Transaction Amount" name="Street" [(ngModel)]="data.trans_amt">
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="width-100">
+                    <mat-label>Transaction Type</mat-label>
+                    <mat-select [(ngModel)]="data.trans_type" name="trans_type">
+                        <mat-option *ngFor="let trans_type of trans_type" [value]="trans_type.value">
+                          {{trans_type.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="width-100">
+                    <mat-label>Balance</mat-label>
+                    <input matInput placeholder="Balance" name="Street" [(ngModel)]="data.balance">
+                </mat-form-field>
+
+                <div class="example-button-row text-center">
+                    <button mat-raised-button color="primary" class="right-m20" type="submit"
+                        (click)="addTranscation()">Apply</button>
+                    <a routerLink="transaction-details" mat-raised-button color="warn">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </mat-card>
+</div>

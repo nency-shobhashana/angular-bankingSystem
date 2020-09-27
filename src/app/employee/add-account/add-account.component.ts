@@ -6,7 +6,7 @@ import { ServerService } from 'src/app/server.service';
   selector: 'app-add-account',
   templateUrl: './add-account.component.html',
   styleUrls: ['./add-account.component.css']
-})
+}) 
 export class AddAccountComponent implements OnInit {
 
   data: AccountElement = {

@@ -26,6 +26,8 @@ import { DebitcardPanelComponent } from './employee/debitcard-panel/debitcard-pa
 import { CreditcardPanelComponent } from './employee/creditcard-panel/creditcard-panel.component';
 import { LoanAccountPanelComponent } from './employee/loan-account-panel/loan-account-panel.component';
 import { AccountPanelComponent } from './employee/account-panel/account-panel.component';
+import { AddTransactionComponent } from './add-transaction/add-transaction.component';
+import { AddPaymentComponent } from './add-payment/add-payment.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { AccountPanelComponent } from './employee/account-panel/account-panel.co
     CreditcardPanelComponent,
     LoanAccountPanelComponent,
     AccountPanelComponent,
+    AddTransactionComponent,
+    AddPaymentComponent,
   ],
   imports: [
     BrowserModule,

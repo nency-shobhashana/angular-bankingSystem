@@ -24,7 +24,9 @@ const ELEMENT_DATA: CustomerViewElement[] = [];
   styleUrls: ['./employee-panel.component.css']
 })
 export class EmployeePanelComponent implements OnInit, AfterViewInit{
+
   displayedColumns: string[] = ['action', 'cust_id', 'first_name', 'last_name', 'email', 'pan_no', 'dob', 'gender', 'address'];
+  
   dataSource = new MatTableDataSource<CustomerViewElement>(ELEMENT_DATA);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

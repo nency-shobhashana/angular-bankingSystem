@@ -17,6 +17,8 @@ import { DebitcardPanelComponent } from './employee/debitcard-panel/debitcard-pa
 import { CreditcardPanelComponent } from './employee/creditcard-panel/creditcard-panel.component';
 import { LoanAccountPanelComponent } from './employee/loan-account-panel/loan-account-panel.component';
 import { AccountPanelComponent } from './employee/account-panel/account-panel.component';
+import { AddTransactionComponent } from './add-transaction/add-transaction.component';
+import { AddPaymentComponent } from './add-payment/add-payment.component';
 
 
 const routes: Routes = [
@@ -26,8 +28,10 @@ const routes: Routes = [
 	{ path: 'employee', component: EmployeePanelComponent },
 	{ path: 'addCustomer', component: AddCustomerComponent },
 	{ path: 'customer', component: CustomerPanelComponent },
-	{ path: 'transaction-details', component: AccountTransactionComponent },
-	{ path: 'loan-payments', component: LoanPaymetsComponent },
+	{ path: 'transaction-details/:id', component: AccountTransactionComponent },
+	{ path: 'loan-payments/:id', component: LoanPaymetsComponent },
+	{ path: 'addTransaction/:id', component: AddTransactionComponent },
+	{ path: 'addPayment/:id', component: AddPaymentComponent },
 
 	{ path: 'employee/AddAccount', component: AddAccountComponent },
 	{ path: 'employee/AddLoanAccount', component: AddLoanAccountComponent },
