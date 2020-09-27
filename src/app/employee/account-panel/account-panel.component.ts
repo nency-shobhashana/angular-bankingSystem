@@ -12,6 +12,7 @@ import { ServerService } from '../../server.service';
 export class AccountPanelComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['action', 'acc_no', 'acc_type', 'acc_bal', 'createdDate', 'cust_id'];
   dataSource = new MatTableDataSource<AccountViewElement>(ELEMENT_DATA);
+  searchString = '';
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -43,15 +44,16 @@ export class AccountPanelComponent implements OnInit, AfterViewInit {
       () => alert('Not able to delete'));
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(DialogAccountInfoComponent, {
-      width: '50%',
-      data: {}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+  searchAccount(): void {
+    this.serverService.getAllAccountDataOfCustomer(this.searchString).subscribe(result => {
+      let data = ELEMENT_DATA;
+      if (result != null) {
+        data = result['data'];
+      }
+      this.dataSource = new MatTableDataSource<AccountViewElement>(data);
+      this.dataSource.paginator = this.paginator;
+    },
+      () => alert('Invalid credentials.'));
   }
 }
 
@@ -63,21 +65,4 @@ export interface AccountViewElement {
   cust_id: string;
 }
 const ELEMENT_DATA: AccountViewElement[] = [];
-
-export interface DialogData { }
-
-@Component({
-  selector: 'app-dialog-account-info',
-  templateUrl: 'dialog-account-info.component.html',
-})
-export class DialogAccountInfoComponent {
-
-  constructor(
-    public dialogRef: MatDialogRef<DialogAccountInfoComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
-
-  onOkClick(): void {
-    this.dialogRef.close();
-  }
-}
 

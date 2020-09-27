@@ -1,7 +1,9 @@
+import { switchMap } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
-import {FormControl} from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ServerService } from '../server.service';
+import { throwError } from 'rxjs';
 
 export interface EmployeeElement {
   f_name: string;
@@ -32,44 +34,78 @@ interface State {
 export class AddEmplyeeComponent implements OnInit {
 
   data: EmployeeElement = {
-  f_name: "",
-  l_name: "",
-  contact: 0,
-  dob: "",
-  gender: "",
-  state: "",
-  city: "",
-  street: "",
-  pin: 0,
+    f_name: '',
+    l_name: '',
+    contact: 0,
+    dob: '',
+    gender: '',
+    state: '',
+    city: '',
+    street: '',
+    pin: 0,
   };
 
   gender: Gender[] = [
-    {value: 'Female', viewValue: 'Female'},
-    {value: 'Male', viewValue: 'Male'}
+    { value: 'Female', viewValue: 'Female' },
+    { value: 'Male', viewValue: 'Male' }
   ];
   state: State[] = [
-    {value: 'Gujarat', viewValue: 'Gujarat'},
-    {value: 'Panjab', viewValue: 'Panjab'},
-    {value: 'Rajsthan', viewValue: 'Rajsthan'}
+    { value: 'Gujarat', viewValue: 'Gujarat' },
+    { value: 'Panjab', viewValue: 'Panjab' },
+    { value: 'Rajsthan', viewValue: 'Rajsthan' }
   ];
 
   date = new FormControl(new Date());
   serializedDate = new FormControl((new Date()).toISOString().split('T')[0]);
 
-  constructor(private router: Router, private serverService: ServerService) { }
+  isUpdate = false;
+  empID = '';
+  buttonTitle = 'Add Employee';
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private serverService: ServerService) { }
 
   ngOnInit(): void {
+    this.route.paramMap.pipe(
+      switchMap((params: ParamMap) => {
+        const id = params.get('id');
+        if (id != null) {
+          return id as string;
+        } else {
+          throwError('');
+        }
+      }),
+      switchMap((id: string) => this.serverService.getEmployeeData(id))
+    ).subscribe(result => {
+      this.isUpdate = true;
+      this.buttonTitle = 'Update Employee';
+      this.data = result['data'][0];
+      this.empID = this.data['emp_id'];
+    });
   }
 
-  addEmployee(){
-    this.serverService.insertEmployeeData(this.data).subscribe((response) => {
-      if(response != null){
-        this.router.navigate(['admin']);
-      }else {
-        alert("Invalid credentials.");
-      }
-    },
-      () => alert("Invalid credentials."));
+  addEmployee(): void {
+    if (this.isUpdate) {
+      this.serverService.updateEmployeeData(this.data, this.empID).subscribe((response) => {
+        if (response != null) {
+          this.router.navigate(['admin']);
+        } else {
+          alert('Invalid credentials.');
+        }
+      },
+        () => alert('Invalid credentials.'));
+    } else {
+      this.serverService.insertEmployeeData(this.data).subscribe((response) => {
+        if (response != null) {
+          this.router.navigate(['admin']);
+        } else {
+          alert('Invalid credentials.');
+        }
+      },
+        () => alert('Invalid credentials.'));
+    }
 
   }
 

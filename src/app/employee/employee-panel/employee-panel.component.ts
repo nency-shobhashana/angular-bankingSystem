@@ -1,10 +1,10 @@
 import { Component, OnInit, AfterViewInit, ViewChild, Inject } from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { ServerService } from '../../server.service';
 
-export interface CustomerViewElement{
+export interface CustomerViewElement {
   cust_id: string;
   f_name: string;
   l_name: string;
@@ -23,11 +23,11 @@ const ELEMENT_DATA: CustomerViewElement[] = [];
   templateUrl: './employee-panel.component.html',
   styleUrls: ['./employee-panel.component.css']
 })
-export class EmployeePanelComponent implements OnInit, AfterViewInit{
-
+export class EmployeePanelComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['action', 'cust_id', 'first_name', 'last_name', 'email', 'pan_no', 'dob', 'gender', 'address'];
-  
+
   dataSource = new MatTableDataSource<CustomerViewElement>(ELEMENT_DATA);
+  searchString = '';
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -43,7 +43,7 @@ export class EmployeePanelComponent implements OnInit, AfterViewInit{
 
   loadAllData(): void {
     this.serverService.getAllCustomerData().subscribe(result => {
-      if(result != null){
+      if (result != null) {
         this.dataSource = new MatTableDataSource<CustomerViewElement>(result['data']);
         this.dataSource.paginator = this.paginator;
       }
@@ -52,40 +52,23 @@ export class EmployeePanelComponent implements OnInit, AfterViewInit{
   }
 
 
-  deleteData(empId: number): void  {
+  deleteData(empId: number): void {
     this.serverService.deleteCustomerData(empId).subscribe(() => {
       this.loadAllData();
     },
-    () => alert('Not able to delete'));
+      () => alert('Not able to delete'));
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(DialogEmployeeInfoComponent, {
-      width: '50%',
-      data: {}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
-  }
-
-}
-
-export interface DialogData {}
-
-@Component({
-  selector: 'app-dialog-customer-info',
-  templateUrl: 'dialog-customer-info.component.html',
-})
-export class DialogEmployeeInfoComponent {
-
-  constructor(
-    public dialogRef: MatDialogRef<DialogEmployeeInfoComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
-
-  onOkClick(): void {
-    this.dialogRef.close();
+  searchCustomer(): void {
+    this.serverService.getFilterCustomerData(this.searchString).subscribe(result => {
+      let data = ELEMENT_DATA;
+      if (result != null) {
+        data = result['data'];
+      }
+      this.dataSource = new MatTableDataSource<CustomerViewElement>(data);
+      this.dataSource.paginator = this.paginator;
+    },
+      () => alert('Invalid credentials.'));
   }
 
 }

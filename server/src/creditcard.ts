@@ -32,7 +32,7 @@ export const creditcardRouter = (events) => {
       return [
         req.body.holder_name,
         req.body.credit_no,
-        moment(req.body.createdDate).format('yyyy-MM'),
+        moment(req.body.createdDate).format('yyyy-MM-DD'),
         req.body.cvv,
         req.body.cust_id
       ];
@@ -47,7 +47,7 @@ export const creditcardRouter = (events) => {
   events.putRequest(
     '/credit_card/:id',
     'UPDATE credit_card SET ' +
-    'holder_name=?,' +
+    'holder_name=?' +
     ' WHERE credit_id = ?',
     (req: express.Request) => {
       return [

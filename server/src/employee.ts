@@ -4,6 +4,12 @@ import moment = require('moment');
 export const employeeRouter = (events) => {
 
   events.getRequest(
+    '/employee/search/:string',
+    `SELECT *, DATE_FORMAT(dob, '%Y-%m-%d') as dob, CONCAT_WS( ', ', street, city, state, pin) AS address from employee WHERE f_name = ?`,
+    (req: express.Request) => [req.params.string]
+  );
+
+  events.getRequest(
     '/employee/:id',
     `SELECT *, DATE_FORMAT(dob, '%Y-%m-%d') as dob, CONCAT_WS( ', ', street, city, state, pin) AS address from employee WHERE emp_id = ?`,
     (req: express.Request) => [req.params.id]
@@ -49,7 +55,7 @@ export const employeeRouter = (events) => {
         req.body.f_name,
         req.body.l_name,
         req.body.contact,
-        moment(req.body.dob).format('yyyy-MM-DD	'),
+        moment(req.body.dob).format('yyyy-MM-DD'),
         req.body.gender,
         req.body.state,
         req.body.city,

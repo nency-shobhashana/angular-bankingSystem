@@ -12,6 +12,7 @@ import { ServerService } from '../../server.service';
 export class DebitcardPanelComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['action', 'debit_id', 'holder_name', 'debit_no', 'exp_date', 'acc_id'];
   dataSource = new MatTableDataSource<DebitcardViewElement>(ELEMENT_DATA);
+  searchString = '';
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -43,15 +44,16 @@ export class DebitcardPanelComponent implements OnInit, AfterViewInit {
       () => alert('Not able to delete'));
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(DialogDebitcardInfoComponent, {
-      width: '50%',
-      data: {}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+  searchCard(): void {
+    this.serverService.getAllDebitcardDataOfAccount(this.searchString).subscribe(result => {
+      let data = ELEMENT_DATA;
+      if (result != null) {
+        data = result['data'];
+      }
+      this.dataSource = new MatTableDataSource<DebitcardViewElement>(data);
+      this.dataSource.paginator = this.paginator;
+    },
+      () => alert('Invalid credentials.'));
   }
 }
 
@@ -65,20 +67,4 @@ export interface DebitcardViewElement {
 }
 const ELEMENT_DATA: DebitcardViewElement[] = [];
 
-export interface DialogData { }
-
-@Component({
-  selector: 'app-dialog-debitcard-info',
-  templateUrl: 'dialog-debitcard-info.component.html',
-})
-export class DialogDebitcardInfoComponent {
-
-  constructor(
-    public dialogRef: MatDialogRef<DialogDebitcardInfoComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
-
-  onOkClick(): void {
-    this.dialogRef.close();
-  }
-}
 

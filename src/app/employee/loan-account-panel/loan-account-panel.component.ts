@@ -13,6 +13,7 @@ import { ServerService } from '../../server.service';
 export class LoanAccountPanelComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['action', 'loan_id', 'loan_type', 'status', 'interest', 'duration', 'amount', 'remain_amt', 'start_date', 'cust_id'];
   dataSource = new MatTableDataSource<LoanAccountViewElement>(ELEMENT_DATA);
+  searchString = '';
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -44,15 +45,16 @@ export class LoanAccountPanelComponent implements OnInit, AfterViewInit {
       () => alert('Not able to delete'));
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(DialogLoanAccountInfoComponent, {
-      width: '50%',
-      data: {}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+  searchAccount(): void {
+    this.serverService.getAllLoanAccountDataOfCustomer(this.searchString).subscribe(result => {
+      let data = ELEMENT_DATA;
+      if (result != null) {
+        data = result['data'];
+      }
+      this.dataSource = new MatTableDataSource<LoanAccountViewElement>(data);
+      this.dataSource.paginator = this.paginator;
+    },
+      () => alert('Invalid credentials.'));
   }
 }
 
@@ -69,19 +71,3 @@ export interface LoanAccountViewElement {
 }
 const ELEMENT_DATA: LoanAccountViewElement[] = [];
 
-export interface DialogData { }
-
-@Component({
-  selector: 'app-dialog-loanaccount-info',
-  templateUrl: 'dialog-loanaccount-info.component.html',
-})
-export class DialogLoanAccountInfoComponent {
-
-  constructor(
-    public dialogRef: MatDialogRef<DialogLoanAccountInfoComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
-
-  onOkClick(): void {
-    this.dialogRef.close();
-  }
-}

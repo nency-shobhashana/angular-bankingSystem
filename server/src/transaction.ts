@@ -37,7 +37,7 @@ export const transactionRouter = (events) => {
 
   events.putRequest(
     '/transaction',
-    'INSERT INTO transaction ( trans_date, trans_amt, trans_type, balance, acc_no) VALUES (?,?,?,?,?,?,?,?)',
+    'INSERT INTO transaction ( trans_date, trans_amt, trans_type, balance, acc_no) VALUES (?,?,?,?,?)',
     (req: express.Request) => {
       return [
         moment(req.body.createdDate).format('yyyy-MM-DD'),

@@ -13,6 +13,7 @@ import { ServerService } from '../../server.service';
 export class CreditcardPanelComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['action', 'credit_id', 'holder_name', 'credit_no', 'exp_date', 'cust_id'];
   dataSource = new MatTableDataSource<CreditcardViewElement>(ELEMENT_DATA);
+  searchString = '';
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -44,15 +45,16 @@ export class CreditcardPanelComponent implements OnInit, AfterViewInit {
       () => alert('Not able to delete'));
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(DialogCreditcardInfoComponent, {
-      width: '50%',
-      data: {}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+  searchCard(): void {
+    this.serverService.getAllCreditcardDataOfCustomer(this.searchString).subscribe(result => {
+      let data = ELEMENT_DATA;
+      if (result != null) {
+        data = result['data'];
+      }
+      this.dataSource = new MatTableDataSource<CreditcardViewElement>(data);
+      this.dataSource.paginator = this.paginator;
+    },
+      () => alert('Invalid credentials.'));
   }
 }
 
@@ -66,20 +68,4 @@ export interface CreditcardViewElement {
 }
 const ELEMENT_DATA: CreditcardViewElement[] = [];
 
-export interface DialogData { }
-
-@Component({
-  selector: 'app-dialog-creditcard-info',
-  templateUrl: 'dialog-creditcard-info.component.html',
-})
-export class DialogCreditcardInfoComponent {
-
-  constructor(
-    public dialogRef: MatDialogRef<DialogCreditcardInfoComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
-
-  onOkClick(): void {
-    this.dialogRef.close();
-  }
-}
 

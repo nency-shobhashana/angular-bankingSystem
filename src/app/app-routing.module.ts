@@ -22,26 +22,36 @@ import { AddPaymentComponent } from './add-payment/add-payment.component';
 
 
 const routes: Routes = [
-	{ path: '', component: LoginComponent },
-	{ path: 'admin', component: AdminPanelComponent },
-	{ path: 'addEmployee', component: AddEmplyeeComponent },
-	{ path: 'employee', component: EmployeePanelComponent },
-	{ path: 'addCustomer', component: AddCustomerComponent },
-	{ path: 'customer', component: CustomerPanelComponent },
-	{ path: 'transaction-details/:id', component: AccountTransactionComponent },
-	{ path: 'loan-payments/:id', component: LoanPaymetsComponent },
-	{ path: 'addTransaction/:id', component: AddTransactionComponent },
-	{ path: 'addPayment/:id', component: AddPaymentComponent },
+    { path: '', component: LoginComponent },
+    { path: 'admin', component: AdminPanelComponent },
+    { path: 'addEmployee', component: AddEmplyeeComponent },
+    { path: 'employeeDetail/:id', component: AddEmplyeeComponent },
 
-	{ path: 'employee/AddAccount', component: AddAccountComponent },
-	{ path: 'employee/AddLoanAccount', component: AddLoanAccountComponent },
-	{ path: 'employee/AddCreditcard', component: AddCreditcardComponent },
-	{ path: 'employee/AddDebitcard', component: AddDebitcardComponent },
-	{ path: 'employee/DebitcardPanel', component: DebitcardPanelComponent },
-	{ path: 'employee/CreditcardPanel', component: CreditcardPanelComponent },
-	{ path: 'employee/LoanAccountPanel', component: LoanAccountPanelComponent },
-	{ path: 'employee/AccountPanel', component: AccountPanelComponent }
-	// { path: '', redirectTo: '/login', pathMatch: 'full' }
+    { path: 'employee', component: EmployeePanelComponent },
+    { path: 'addCustomer', component: AddCustomerComponent },
+    { path: 'customerDetail/:id', component: AddCustomerComponent },
+
+    { path: 'employee/AccountPanel', component: AccountPanelComponent },
+    { path: 'employee/AddAccount', component: AddAccountComponent },
+    { path: 'employee/AccountDetail/:id', component: AddAccountComponent },
+
+    { path: 'employee/LoanAccountPanel', component: LoanAccountPanelComponent },
+    { path: 'employee/AddLoanAccount', component: AddLoanAccountComponent },
+    { path: 'employee/LoanAccountDetail/:id', component: AddLoanAccountComponent },
+
+    { path: 'employee/DebitcardPanel', component: DebitcardPanelComponent },
+    { path: 'employee/AddDebitcard', component: AddDebitcardComponent },
+    { path: 'employee/DebitcardDetail/:id', component: AddDebitcardComponent },
+
+    { path: 'employee/CreditcardPanel', component: CreditcardPanelComponent },
+    { path: 'employee/AddCreditcard', component: AddCreditcardComponent },
+    { path: 'employee/creditcardDetail/:id', component: AddCreditcardComponent },
+
+    { path: 'customer', component: CustomerPanelComponent },
+    { path: 'transaction-details/:id', component: AccountTransactionComponent },
+    { path: 'addTransaction/:id', component: AddTransactionComponent },
+    { path: 'loan-payments/:id', component: LoanPaymetsComponent },
+    { path: 'addPayment/:id', component: AddPaymentComponent }
 ];
 
 @NgModule({

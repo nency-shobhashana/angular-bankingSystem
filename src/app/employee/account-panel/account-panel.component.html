@@ -15,11 +15,13 @@
 	</div>
 
 	<div class="example-container">
+		<form>
 		<mat-form-field appearance="fill">
-			<mat-label>Search Account</mat-label>
-			<input matInput placeholder="Search by Customer name">
+			<mat-label>Search Account by customer id </mat-label>
+			<input matInput placeholder="Search by Customer Id" name="searchString" [(ngModel)]="searchString">
 		</mat-form-field>
-		<a routerLink="/admin" routerLinkActive="active" mat-raised-button color="accent" class="right-l20">Search</a>
+		<a mat-raised-button color="accent" class="right-l20" (click)="searchAccount()">Search</a>
+		</form>
 	</div>
 	<div class="mat-elevation-z8">
 		<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" margin>
@@ -30,13 +32,10 @@
 						(click)="deleteData(element.acc_no)">
 						<mat-icon>delete</mat-icon>
 					</button>
-					<button mat-icon-button color="primary" aria-label="Example icon button with a edit icon">
+					<a mat-icon-button color="primary" aria-label="Example icon button with a edit icon"
+					[routerLink]="['/employee/AccountDetail',element.acc_no]">
 						<mat-icon>edit</mat-icon>
-					</button>
-					<button mat-icon-button color="primary" aria-label="Example icon button with a info icon"
-						(click)="openDialog()">
-						<mat-icon>info</mat-icon>
-					</button>
+					</a>
 				</td>
 			</ng-container>
 

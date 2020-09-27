@@ -59,11 +59,18 @@ export class ServerService {
   }
 
 /**** employee *****/
+  updateEmployeeData = (data: EmployeeElement, empId: string) => of({data, empId}).pipe(
+    switchMap(({data: body, empId: id}) => from(this.request('PUT', `${environment.serverUrl}/employee/${id}`, body)))
+  )
   insertEmployeeData = (data: EmployeeElement) => of(data).pipe(
     switchMap((body) => from(this.request('PUT', `${environment.serverUrl}/employee`, body)))
   )
 
-  getEmployeeData = (empId: number) => of(empId).pipe(
+  getFilterEmployeeData = (empName: string) => of(empName).pipe(
+    switchMap((searchString) => from(this.request('GET', `${environment.serverUrl}/employee/search/${searchString}`, [])))
+  )
+
+  getEmployeeData = (empId: string) => of(empId).pipe(
     switchMap((id) => from(this.request('GET', `${environment.serverUrl}/employee/${id}`, [])))
   )
 
@@ -76,11 +83,19 @@ export class ServerService {
   )
 
   /**** customer *****/
+  updateCustomerData = (data: CustomerElement, empId: string) => of({data, empId}).pipe(
+    switchMap(({data: body, empId: id}) => from(this.request('PUT', `${environment.serverUrl}/customer/${id}`, body)))
+  )
+
   insertCustomerData = (data: CustomerElement) => of(data).pipe(
     switchMap((body) => from(this.request('PUT', `${environment.serverUrl}/customer`, body)))
   )
 
-  getCustomerData = (custId: number) => of(custId).pipe(
+  getFilterCustomerData = (custName: string) => of(custName).pipe(
+    switchMap((searchString) => from(this.request('GET', `${environment.serverUrl}/customer/search/${searchString}`, [])))
+  )
+
+  getCustomerData = (custId: string) => of(custId).pipe(
     switchMap((id) => from(this.request('GET', `${environment.serverUrl}/customer/${id}`, [])))
   )
 
@@ -93,6 +108,10 @@ export class ServerService {
   )
 
   /**** account *****/
+  updateAccountData = (data: AccountElement, accId: string) => of({data, accId}).pipe(
+    switchMap(({data: body, accId: id}) => from(this.request('PUT', `${environment.serverUrl}/account/${id}`, body)))
+  )
+
   insertAccountData = (data: AccountElement) => of(data).pipe(
     switchMap((body) => from(this.request('PUT', `${environment.serverUrl}/account`, body)))
   )
@@ -105,7 +124,7 @@ export class ServerService {
     switchMap(() => from(this.request('GET', `${environment.serverUrl}/account`, [])))
   )
 
-  getAllAccountDataOfCustomer = (custId: number) => of(custId).pipe(
+  getAllAccountDataOfCustomer = (custId: string) => of(custId).pipe(
     switchMap((id) => from(this.request('GET', `${environment.serverUrl}/account/customer/${id}`, [])))
   )
 
@@ -114,11 +133,16 @@ export class ServerService {
   )
 
   /**** loan account *****/
+
+  updateLoanAccountData = (data: LoanAccountElement, accId: string) => of({data, accId}).pipe(
+    switchMap(({data: body, accId: id}) => from(this.request('PUT', `${environment.serverUrl}/loan_account/${id}`, body)))
+  )
+
   insertLoanAccountData = (data: LoanAccountElement) => of(data).pipe(
     switchMap((body) => from(this.request('PUT', `${environment.serverUrl}/loan_account`, body)))
   )
 
-  getLoanAccountData = (accountID: number) => of(accountID).pipe(
+  getLoanAccountData = (accountID: string) => of(accountID).pipe(
     switchMap((id) => from(this.request('GET', `${environment.serverUrl}/loan_account/${id}`, [])))
   )
 
@@ -126,7 +150,7 @@ export class ServerService {
     switchMap(() => from(this.request('GET', `${environment.serverUrl}/loan_account`, [])))
   )
 
-  getAllLoanAccountDataOfCustomer = (custId: number) => of(custId).pipe(
+  getAllLoanAccountDataOfCustomer = (custId: string) => of(custId).pipe(
     switchMap((id) => from(this.request('GET', `${environment.serverUrl}/loan_account/customer/${id}`, [])))
   )
 
@@ -135,6 +159,11 @@ export class ServerService {
   )
 
   /**** credit card *****/
+
+  updateCreditcardData = (data: CreditcardElement, cardId: string) => of({data, cardId}).pipe(
+    switchMap(({data: body, cardId: id}) => from(this.request('PUT', `${environment.serverUrl}/credit_card/${id}`, body)))
+  )
+
   insertCreditcardData = (data: CreditcardElement) => of(data).pipe(
     switchMap((body) => from(this.request('PUT', `${environment.serverUrl}/credit_card`, body)))
   )
@@ -143,11 +172,11 @@ export class ServerService {
     switchMap(() => from(this.request('GET', `${environment.serverUrl}/credit_card`, [])))
   )
 
-  getCreditcardData = (cardId: number) => of(cardId).pipe(
+  getCreditcardData = (cardId: string) => of(cardId).pipe(
     switchMap((id) => from(this.request('GET', `${environment.serverUrl}/credit_card/${id}`, [])))
   )
 
-  getAllCreditcardDataOfCustomer = (custId: number) => of(custId).pipe(
+  getAllCreditcardDataOfCustomer = (custId: string) => of(custId).pipe(
     switchMap((id) => from(this.request('GET', `${environment.serverUrl}/credit_card/customer/${id}`, [])))
   )
 
@@ -156,6 +185,10 @@ export class ServerService {
   )
 
   /**** debit card *****/
+  updateDebitcardData = (data: DebitcardElement, cardId: string) => of({data, cardId}).pipe(
+    switchMap(({data: body, cardId: id}) => from(this.request('PUT', `${environment.serverUrl}/debit_card/${id}`, body)))
+  )
+
   insertDebitcardData = (data: DebitcardElement) => of(data).pipe(
     switchMap((body) => from(this.request('PUT', `${environment.serverUrl}/debit_card`, body)))
   )
@@ -164,15 +197,15 @@ export class ServerService {
     switchMap(() => from(this.request('GET', `${environment.serverUrl}/debit_card`, [])))
   )
 
-  getDebitcardData = (cardId: number) => of(cardId).pipe(
+  getDebitcardData = (cardId: string) => of(cardId).pipe(
     switchMap((id) => from(this.request('GET', `${environment.serverUrl}/debit_card/${id}`, [])))
   )
 
-  getAllDebitcardDataOfAccount = (accountID: number) => of(accountID).pipe(
+  getAllDebitcardDataOfAccount = (accountID: string) => of(accountID).pipe(
     switchMap((id) => from(this.request('GET', `${environment.serverUrl}/debit_card/account/${id}`, [])))
   )
 
-  getAllDebitcardDataOfCustomer = (custId: number) => of(custId).pipe(
+  getAllDebitcardDataOfCustomer = (custId: string) => of(custId).pipe(
     switchMap((id) => from(this.request('GET', `${environment.serverUrl}/debit_card/customer/${id}`, [])))
   )
 

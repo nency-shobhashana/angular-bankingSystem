@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl} from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ServerService } from 'src/app/server.service';
+import { switchMap } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 @Component({
   selector: 'app-add-debitcard',
   templateUrl: './add-debitcard.component.html',
   styleUrls: ['./add-debitcard.component.css']
 })
-export class AddDebitcardComponent implements OnInit{
+export class AddDebitcardComponent implements OnInit {
 
   data: DebitcardElement = {
     holder_name: '',
@@ -15,27 +17,60 @@ export class AddDebitcardComponent implements OnInit{
     exp_date: '',
     cvv: 0,
     acc_no: 0
-    };
+  };
 
-    date = new FormControl(new Date());
-    serializedDate = new FormControl((new Date()).toISOString());
+  date = new FormControl(new Date());
+  serializedDate = new FormControl((new Date()).toISOString());
 
-    constructor(private router: Router, private serverService: ServerService) { }
+  isUpdate = false;
+  cardId = '';
+  buttonTitle = 'Add Debit Card';
 
-    ngOnInit(): void {
-    }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private serverService: ServerService) { }
 
-    addDebitcard(): void {
-      this.serverService.insertDebitcardData(this.data).subscribe((response) => {
-        if (response != null){
+  ngOnInit(): void {
+    this.route.paramMap.pipe(
+      switchMap((params: ParamMap) => {
+        const id = params.get('id');
+        if (id != null) {
+          return id as string;
+        } else {
+          throwError('');
+        }
+      }),
+      switchMap((id: string) => this.serverService.getDebitcardData(id))
+    ).subscribe(result => {
+      this.isUpdate = true;
+      this.buttonTitle = 'Update Debit Card';
+      this.data = result['data'][0];
+      this.cardId = this.data['debit_id'];
+    });
+  }
+
+  addDebitcard(): void {
+    if (this.isUpdate) {
+      this.serverService.updateDebitcardData(this.data, this.cardId).subscribe((response) => {
+        if (response != null) {
           this.router.navigate(['employee/DebitcardPanel']);
-        }else {
+        } else {
+          alert('Invalid credentials.');
+        }
+      },
+        () => alert('Invalid credentials.'));
+    } else {
+      this.serverService.insertDebitcardData(this.data).subscribe((response) => {
+        if (response != null) {
+          this.router.navigate(['employee/DebitcardPanel']);
+        } else {
           alert('Invalid Data.');
         }
       },
         () => alert('Invalid Data.'));
-
     }
+  }
 }
 export interface DebitcardElement {
   holder_name: string;

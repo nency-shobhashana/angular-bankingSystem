@@ -34,7 +34,7 @@ export const paymentRouter = (events) => {
 
   events.putRequest(
     '/payment',
-    'INSERT INTO payment ( pay_date, pay_amt, loan_id) VALUES (?,?,?,?,?,?,?,?)',
+    'INSERT INTO payment ( pay_date, pay_amt, loan_id) VALUES (?,?,?)',
     (req: express.Request) => {
       return [
         moment(req.body.createdDate).format('yyyy-MM-DD'),

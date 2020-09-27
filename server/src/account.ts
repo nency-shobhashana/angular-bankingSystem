@@ -46,7 +46,7 @@ export const accountRouter = (events) => {
       return [
         req.body.acc_type,
         req.body.acc_bal,
-        moment(req.body.createdDate).format('yyyy-MM-DD	'),
+        moment(req.body.createdDate).format('yyyy-MM-DD'),
         req.body.cust_id,
         req.params.id
       ];

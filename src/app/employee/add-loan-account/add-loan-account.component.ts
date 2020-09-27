@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl} from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ServerService } from 'src/app/server.service';
-
+import { switchMap } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 @Component({
   selector: 'app-add-loan-account',
   templateUrl: './add-loan-account.component.html',
@@ -19,28 +20,61 @@ export class AddLoanAccountComponent implements OnInit {
     remain_amt: 0,
     start_date: '',
     cust_id: 0,
-    };
+  };
 
-    date = new FormControl(new Date());
-    serializedDate = new FormControl((new Date()).toISOString());
+  date = new FormControl(new Date());
+  serializedDate = new FormControl((new Date()).toISOString());
 
-    constructor(private router: Router, private serverService: ServerService) { }
+  isUpdate = false;
+  loanId = '';
+  buttonTitle = 'Add Loan Account';
 
-    ngOnInit(): void {
-    }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private serverService: ServerService) { }
 
-    addLoanAccount(): void {
-      this.data.remain_amt = this.data.amount;
-      this.serverService.insertLoanAccountData(this.data).subscribe((response) => {
-        if (response != null){
+  ngOnInit(): void {
+    this.route.paramMap.pipe(
+      switchMap((params: ParamMap) => {
+        const id = params.get('id');
+        if (id != null) {
+          return id as string;
+        } else {
+          throwError('');
+        }
+      }),
+      switchMap((id: string) => this.serverService.getLoanAccountData(id))
+    ).subscribe(result => {
+      this.isUpdate = true;
+      this.buttonTitle = 'Update Loan Account';
+      this.data = result['data'][0];
+      this.loanId = this.data['loan_id'];
+    });
+  }
+
+  addLoanAccount(): void {
+    if (this.isUpdate) {
+      this.serverService.updateLoanAccountData(this.data, this.loanId).subscribe((response) => {
+        if (response != null) {
           this.router.navigate(['employee/LoanAccountPanel']);
-        }else {
+        } else {
           alert('Invalid credentials.');
         }
       },
         () => alert('Invalid credentials.'));
-
+    } else {
+      this.data.remain_amt = this.data.amount;
+      this.serverService.insertLoanAccountData(this.data).subscribe((response) => {
+        if (response != null) {
+          this.router.navigate(['employee/LoanAccountPanel']);
+        } else {
+          alert('Invalid credentials.');
+        }
+      },
+        () => alert('Invalid credentials.'));
     }
+  }
 }
 export interface LoanAccountElement {
   loan_type: string;

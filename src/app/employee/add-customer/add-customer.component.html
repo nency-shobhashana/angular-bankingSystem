@@ -25,11 +25,11 @@
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="width-100">
                     <mat-label>email</mat-label>
-                    <input matInput placeholder="Last Name" name="LastName" [(ngModel)]="data.email">
+                    <input matInput placeholder="Last Name" name="Email" [(ngModel)]="data.email">
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="width-100">
                     <mat-label>PAN no</mat-label>
-                    <input matInput placeholder="Last Name" name="LastName" [(ngModel)]="data.pan_no">
+                    <input matInput placeholder="Last Name" name="PanNo" [(ngModel)]="data.pan_no">
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="width-100">
                     <mat-label>Date of Birth</mat-label>
@@ -70,7 +70,7 @@
 
                 <div class="example-button-row text-center">
                     <button mat-raised-button color="primary" class="right-m20" type="submit"
-                        (click)="addCustomer()">Add Customer</button>
+                        (click)="addCustomer()">{{buttonTitle}}</button>
                     <a routerLink="/employee" mat-raised-button color="warn">Cancel</a>
                 </div>
             </div>

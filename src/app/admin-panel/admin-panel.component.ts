@@ -1,17 +1,17 @@
 import { Component, OnInit, AfterViewInit, ViewChild, Inject } from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { ServerService } from '../server.service';
 
 
-export interface EmployeeViewElement{
-  emp_id: String;
+export interface EmployeeViewElement {
+  emp_id: string;
   f_name: string;
   l_name: string;
   dob: string;
   gender: string;
-  address: String;
+  address: string;
 }
 
 const ELEMENT_DATA: EmployeeViewElement[] = [];
@@ -21,65 +21,49 @@ const ELEMENT_DATA: EmployeeViewElement[] = [];
   templateUrl: './admin-panel.component.html',
   styleUrls: ['./admin-panel.component.css']
 })
-export class AdminPanelComponent implements OnInit {
-	displayedColumns: string[] = ['action', 'emp_id', 'first_name', 'last_name', 'dob', 'gender', 'address'];
+export class AdminPanelComponent implements OnInit, AfterViewInit {
+
+  constructor(public dialog: MatDialog, private serverService: ServerService) { }
+  displayedColumns: string[] = ['action', 'emp_id', 'first_name', 'last_name', 'dob', 'gender', 'address'];
   dataSource = new MatTableDataSource<EmployeeViewElement>(ELEMENT_DATA);
+  searchString = '';
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(public dialog: MatDialog, private serverService: ServerService) { }
-
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.loadAllData();
     this.dataSource.paginator = this.paginator;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
-  loadAllData() {
+  loadAllData(): void {
     this.serverService.getAllEmployeeData().subscribe(result => {
-      if(result != null){
-        this.dataSource = new MatTableDataSource<EmployeeViewElement>(result["data"]);
+      if (result != null) {
+        this.dataSource = new MatTableDataSource<EmployeeViewElement>(result['data']);
         this.dataSource.paginator = this.paginator;
       }
     },
-      () => alert("Invalid credentials."));
+      () => alert('Invalid credentials.'));
   }
 
-  deleteData(emp_id:number) {
-    this.serverService.deleteEmployeeData(emp_id).subscribe(() => {
+  deleteData(empId: number): void {
+    this.serverService.deleteEmployeeData(empId).subscribe(() => {
       this.loadAllData();
     },
-    () => alert("Not able to delete"));
+      () => alert('Not able to delete'));
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(DialogEmployeeInfo, {
-      width: '50%',
-      data: {}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
-  }
-
-}
-
-export interface DialogData {}
-
-@Component({
-  selector: 'dialog-employee-info',
-  templateUrl: 'dialog-employee-info.html',
-})
-export class DialogEmployeeInfo {
-
-  constructor(
-    public dialogRef: MatDialogRef<DialogEmployeeInfo>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
-
-  onOkClick(): void {
-    this.dialogRef.close();
+  searchEmployee(): void {
+    this.serverService.getFilterEmployeeData(this.searchString).subscribe(result => {
+      let data = ELEMENT_DATA;
+      if (result != null) {
+        data = result['data'];
+      }
+      this.dataSource = new MatTableDataSource<EmployeeViewElement>(data);
+      this.dataSource.paginator = this.paginator;
+    },
+      () => alert('Invalid credentials.'));
   }
 
 }

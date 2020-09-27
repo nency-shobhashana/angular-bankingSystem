@@ -4,6 +4,12 @@ import moment = require('moment');
 export const customerRouter = (events) => {
 
   events.getRequest(
+    '/customer/search/:string',
+    `SELECT *, DATE_FORMAT(dob, '%Y-%m-%d') as dob, CONCAT_WS( ', ', street, city, state, pin) AS address from customer WHERE f_name = ?`,
+    (req: express.Request) => [req.params.string]
+  );
+
+  events.getRequest(
     '/customer',
     `SELECT *, DATE_FORMAT(dob, '%Y-%m-%d') as dob, CONCAT_WS( ', ', street, city, state, pin) AS address from customer`
     , () => []);

@@ -1,7 +1,9 @@
+import { switchMap } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
-import {FormControl} from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ServerService } from 'src/app/server.service';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-add-customer',
@@ -21,37 +23,70 @@ export class AddCustomerComponent implements OnInit {
     city: '',
     street: '',
     pin: 0,
-    };
+  };
 
-    gender: Gender[] = [
-      {value: 'Female', viewValue: 'Female'},
-      {value: 'Male', viewValue: 'Male'}
-    ];
-    state: State[] = [
-      {value: 'Gujarat', viewValue: 'Gujarat'},
-      {value: 'Panjab', viewValue: 'Panjab'},
-      {value: 'Rajsthan', viewValue: 'Rajsthan'}
-    ];
+  gender: Gender[] = [
+    { value: 'Female', viewValue: 'Female' },
+    { value: 'Male', viewValue: 'Male' }
+  ];
+  state: State[] = [
+    { value: 'Gujarat', viewValue: 'Gujarat' },
+    { value: 'Panjab', viewValue: 'Panjab' },
+    { value: 'Rajsthan', viewValue: 'Rajsthan' }
+  ];
 
-    date = new FormControl(new Date());
-    serializedDate = new FormControl((new Date()).toISOString());
+  date = new FormControl(new Date());
+  serializedDate = new FormControl((new Date()).toISOString());
 
-    constructor(private router: Router, private serverService: ServerService) { }
+  isUpdate = false;
+  custID = '';
+  buttonTitle = 'Add Customer';
 
-    ngOnInit(): void {
-    }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private serverService: ServerService) { }
 
-    addCustomer(): void {
-      this.serverService.insertCustomerData(this.data).subscribe((response) => {
-        if (response != null){
+  ngOnInit(): void {
+    this.route.paramMap.pipe(
+      switchMap((params: ParamMap) => {
+        const id = params.get('id');
+        if (id != null) {
+          return id as string;
+        } else {
+          throwError('');
+        }
+      }),
+      switchMap((id: string) => this.serverService.getCustomerData(id))
+    ).subscribe(result => {
+      this.isUpdate = true;
+      this.buttonTitle = 'Update Customer';
+      this.data = result['data'][0];
+      this.custID = this.data['cust_id'];
+    });
+  }
+
+  addCustomer(): void {
+    if (this.isUpdate) {
+      this.serverService.updateCustomerData(this.data, this.custID).subscribe((response) => {
+        if (response != null) {
           this.router.navigate(['employee']);
-        }else {
+        } else {
           alert('Invalid credentials.');
         }
       },
         () => alert('Invalid credentials.'));
-
+    } else {
+      this.serverService.insertCustomerData(this.data).subscribe((response) => {
+        if (response != null) {
+          this.router.navigate(['employee']);
+        } else {
+          alert('Invalid credentials.');
+        }
+      },
+        () => alert('Invalid credentials.'));
     }
+  }
 }
 export interface CustomerElement {
   f_name: string;

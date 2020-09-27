@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ServerService } from 'src/app/server.service';
+import { switchMap } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 @Component({
   selector: 'app-add-account',
   templateUrl: './add-account.component.html',
@@ -19,21 +21,54 @@ export class AddAccountComponent implements OnInit {
   date = new FormControl(new Date());
   serializedDate = new FormControl((new Date()).toISOString());
 
-  constructor(private router: Router, private serverService: ServerService) { }
+  isUpdate = false;
+  accId = '';
+  buttonTitle = 'Add Account';
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private serverService: ServerService) { }
 
   ngOnInit(): void {
+    this.route.paramMap.pipe(
+      switchMap((params: ParamMap) => {
+        const id = params.get('id');
+        if (id != null) {
+          return id as string;
+        } else {
+          throwError('');
+        }
+      }),
+      switchMap((id: string) => this.serverService.getAccountData(id))
+    ).subscribe(result => {
+      this.isUpdate = true;
+      this.buttonTitle = 'Update Account';
+      this.data = result['data'][0];
+      this.accId = this.data['acc_no'];
+    });
   }
 
   addAccount(): void {
-    this.serverService.insertAccountData(this.data).subscribe((response) => {
-      if (response != null) {
-        this.router.navigate(['employee/AccountPanel']);
-      } else {
-        alert('Invalid credentials.');
-      }
-    },
-      () => alert('Invalid credentials.'));
-
+    if (this.isUpdate) {
+      this.serverService.updateAccountData(this.data, this.accId).subscribe((response) => {
+        if (response != null) {
+          this.router.navigate(['employee/AccountPanel']);
+        } else {
+          alert('Invalid credentials.');
+        }
+      },
+        () => alert('Invalid credentials.'));
+    } else {
+      this.serverService.insertAccountData(this.data).subscribe((response) => {
+        if (response != null) {
+          this.router.navigate(['employee/AccountPanel']);
+        } else {
+          alert('Invalid credentials.');
+        }
+      },
+        () => alert('Invalid credentials.'));
+    }
   }
 }
 export interface AccountElement {

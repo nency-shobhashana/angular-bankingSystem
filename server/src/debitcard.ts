@@ -41,7 +41,7 @@ export const debitcardRouter = (events) => {
       return [
         req.body.holder_name,
         req.body.debit_no,
-        moment(req.body.createdDate).format('yyyy-MM'),
+        moment(req.body.createdDate).format('yyyy-MM-DD'),
         req.body.cvv,
         req.body.acc_no
       ];
@@ -56,7 +56,7 @@ export const debitcardRouter = (events) => {
   events.putRequest(
     '/debit_card/:id',
     'UPDATE debit_card SET ' +
-    'holder_name=?,' +
+    'holder_name=?' +
     ' WHERE debit_id = ?',
     (req: express.Request) => {
       return [

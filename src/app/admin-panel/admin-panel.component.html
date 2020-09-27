@@ -14,13 +14,17 @@
 	  	
 	</div>
 
-	<div class="example-container">
+	
+	<div class="example-container">a
+		<form>
 	  <mat-form-field appearance="fill">
-	    <mat-label>Search employee</mat-label>
-	    <input matInput placeholder="Search by employee name">
+	    <mat-label>Search by employee name</mat-label>
+	    <input matInput placeholder="Search by employee name" name="searchString" [(ngModel)]="searchString">
 	  </mat-form-field>
-		<a routerLink="/admin" routerLinkActive="active" mat-raised-button color="accent" class="right-l20">Search</a>
+		<a mat-raised-button color="accent" class="right-l20" (click)="searchEmployee()">Search</a>
+	</form>
 	 </div>
+	
 	<div class="mat-elevation-z8">
 		<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" margin>
 		  <ng-container matColumnDef="action">
@@ -30,12 +34,11 @@
 				  (click)="deleteData(element.emp_id)">
 		          <mat-icon>delete</mat-icon>
 		        </button>
-		    	<button mat-icon-button color="primary" aria-label="Example icon button with a edit icon">
+				<a mat-icon-button color="primary" aria-label="Example icon button with a edit icon"
+				[routerLink]="['/employeeDetail',element.emp_id]"
+				>
 		          <mat-icon>edit</mat-icon>
-		        </button>
-		    	<button mat-icon-button color="primary" aria-label="Example icon button with a info icon" (click)="openDialog()">
-		          <mat-icon>info</mat-icon>
-		        </button>
+			</a>
 		    </td>
 		  </ng-container>
 
