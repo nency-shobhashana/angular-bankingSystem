@@ -1,8 +1,10 @@
 <div class="toolbar" role="banner">
   <img
     width="40" alt="BankingLogo" src="/assets/image/logo.png" />
-    <h2><a routerLink="/" routerLinkActive="active" style="color: #FFF !important;">Banking System</a></h2>
+    <!-- <h2><a routerLink="/" routerLinkActive="active" style="color: #FFF !important;">Banking System</a></h2> -->
+    <h2>Banking System</h2>
     <div class="spacer"></div>
+    <a (click)="logout()" mat-raised-button color="warm" class="right-m20" *ngIf="isLogin">logout</a>
     <!-- <h2>
       User
     </h2> -->

@@ -5,7 +5,7 @@ import * as mysql from 'mysql2';
 import { RouterModule }from './routerModule';
 
 const connection = mysql.createConnection({
-    host: '192.168.0.205',
+    host: 'localhost',
     user: 'banking_admin',
     password: 'nenu',
     database: 'cbd_banking',

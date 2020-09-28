@@ -15,7 +15,7 @@ import { PaymentElement } from './add-payment/add-payment.component';
 
 export const environment = {
   production: false,
-  serverUrl: 'http://192.168.0.204:8080'
+  serverUrl: 'http://localhost:8080'
 };
 
 
@@ -25,6 +25,8 @@ export const environment = {
 export class ServerService {
 
   constructor(private http: HttpClient) {
+    console.log("new created")
+    this.loginId = sessionStorage.getItem('loginId')
   }
   loginId = '0';
 
@@ -54,7 +56,8 @@ export class ServerService {
 
   logout() {
     this.loginId = '0';
-    return of({ status: 'success' }).pipe(delay(1000));
+    sessionStorage.setItem('loginId','0')
+    return of({ status: 'success' }).pipe(delay(300));
   }
 
 /**** employee *****/

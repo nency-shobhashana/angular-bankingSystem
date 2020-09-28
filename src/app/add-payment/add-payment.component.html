@@ -26,7 +26,7 @@
                 <div class="example-button-row text-center">
                     <button mat-raised-button color="primary" class="right-m20" type="submit"
                         (click)="addTranscation()">Apply</button>
-                    <a routerLink="transaction-details" mat-raised-button color="warn">Cancel</a>
+                    <a [routerLink]="['/loan-payments', data.loan_id]" mat-raised-button color="warn">Cancel</a>
                 </div>
             </div>
         </form>

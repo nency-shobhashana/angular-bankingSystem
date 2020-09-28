@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
     this.serverService.loginAuth(this.username, this.password).subscribe((response) => {
       if (response != null) {
         this.serverService.loginId = response['data']['loginId'];
+        sessionStorage.setItem('loginId',this.serverService.loginId)
         if (response['data']['role'] === '0') {
           this.router.navigate(['admin']);
         } else if (response['data']['role'] === '1') {

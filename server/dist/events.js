@@ -31,3 +31,4 @@ exports.createRouter = function (db) {
     return router;
 };
 // module.exports = createRouter;
+//# sourceMappingURL=events.js.map

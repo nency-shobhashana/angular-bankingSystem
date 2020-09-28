@@ -33,7 +33,8 @@ export const loanAccountRouter = (events) => {
         moment(req.body.createdDate).format('yyyy-MM-DD'),
         req.body.remain_amt,
         req.body.status,
-        req.body.cust_id
+        req.body.cust_id,
+        req.body.emp_id
       ];
     });
 
