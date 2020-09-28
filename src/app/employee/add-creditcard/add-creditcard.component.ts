@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ServerService } from 'src/app/server.service';
-import { switchMap } from 'rxjs/operators';
+import { concatMap, map, switchMap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
 @Component({
@@ -34,7 +34,7 @@ export class AddCreditcardComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.pipe(
-      switchMap((params: ParamMap) => {
+      map((params: ParamMap) => {
         const id = params.get('id');
         if (id != null) {
           return id as string;
@@ -42,8 +42,9 @@ export class AddCreditcardComponent implements OnInit {
           throwError('');
         }
       }),
-      switchMap((id: string) => this.serverService.getCreditcardData(id))
+      concatMap((id: string) => this.serverService.getCreditcardData(id))
     ).subscribe(result => {
+      if (result == null) { return; }
       this.isUpdate = true;
       this.buttonTitle = 'Update Credit Card';
       this.data = result['data'][0];

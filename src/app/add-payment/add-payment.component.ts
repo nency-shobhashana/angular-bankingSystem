@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { throwError } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { ServerService } from 'src/app/server.service';
 
 export interface PaymentElement {
@@ -30,7 +30,7 @@ export class AddPaymentComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.pipe(
-      switchMap((params:ParamMap) =>{
+      map((params:ParamMap) =>{
         const id = params.get('id')
         if(id != null){
           return id
@@ -38,7 +38,10 @@ export class AddPaymentComponent implements OnInit {
           throwError('');
         }
       })
-    ).subscribe(accId => this.data.loan_id = accId)
+    ).subscribe(accId => {
+      if (accId == null) { return; }
+      this.data.loan_id = accId
+    })
   }
 
   addTranscation(): void {

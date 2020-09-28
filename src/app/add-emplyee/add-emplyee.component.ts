@@ -1,4 +1,4 @@
-import { switchMap } from 'rxjs/operators';
+import { concatMap, map, switchMap } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
@@ -69,7 +69,7 @@ export class AddEmplyeeComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.pipe(
-      switchMap((params: ParamMap) => {
+      map((params: ParamMap) => {
         const id = params.get('id');
         if (id != null) {
           return id as string;
@@ -77,8 +77,9 @@ export class AddEmplyeeComponent implements OnInit {
           throwError('');
         }
       }),
-      switchMap((id: string) => this.serverService.getEmployeeData(id))
+      concatMap((id: string) => this.serverService.getEmployeeData(id))
     ).subscribe(result => {
+      if (result == null) { return; }
       this.isUpdate = true;
       this.buttonTitle = 'Update Employee';
       this.data = result['data'][0];

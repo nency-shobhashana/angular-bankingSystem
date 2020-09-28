@@ -12,6 +12,7 @@ export interface CustomerViewElement {
   pan_no: string;
   dob: string;
   gender: string;
+  contact: number;
   address: string;
 }
 
@@ -24,7 +25,7 @@ const ELEMENT_DATA: CustomerViewElement[] = [];
   styleUrls: ['./employee-panel.component.css']
 })
 export class EmployeePanelComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['action', 'cust_id', 'first_name', 'last_name', 'email', 'pan_no', 'dob', 'gender', 'address'];
+  displayedColumns: string[] = ['action', 'cust_id', 'first_name', 'last_name', 'email', 'pan_no', 'dob', 'gender','contact', 'address'];
 
   dataSource = new MatTableDataSource<CustomerViewElement>(ELEMENT_DATA);
   searchString = '';

@@ -1,4 +1,4 @@
-import { switchMap } from 'rxjs/operators';
+import { concatMap, map, switchMap } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
@@ -30,6 +30,7 @@ export class AddCustomerComponent implements OnInit {
     pan_no: 0,
     dob: '',
     gender: '',
+    contact: 0,
     state: '',
     city: '',
     street: '',
@@ -60,7 +61,7 @@ export class AddCustomerComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.pipe(
-      switchMap((params: ParamMap) => {
+      map((params: ParamMap) => {
         const id = params.get('id');
         if (id != null) {
           return id as string;
@@ -68,8 +69,9 @@ export class AddCustomerComponent implements OnInit {
           throwError('');
         }
       }),
-      switchMap((id: string) => this.serverService.getCustomerData(id))
+      concatMap((id: string) => this.serverService.getCustomerData(id))
     ).subscribe(result => {
+      if (result == null) { return; }
       this.isUpdate = true;
       this.buttonTitle = 'Update Customer';
       this.data = result['data'][0];
@@ -106,6 +108,7 @@ export interface CustomerElement {
   pan_no: number;
   dob: string;
   gender: string;
+  contact: number;
   state: string;
   city: string;
   street: string;

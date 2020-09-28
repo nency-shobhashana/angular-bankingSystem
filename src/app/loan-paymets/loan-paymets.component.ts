@@ -4,7 +4,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { throwError } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { ServerService } from '../server.service';
 
 
@@ -36,7 +36,7 @@ export class LoanPaymetsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.route.paramMap.pipe(
-      switchMap((params: ParamMap) => {
+      map((params: ParamMap) => {
         const id = params.get('id')
         if (id != null) {
           return id
@@ -45,6 +45,7 @@ export class LoanPaymetsComponent implements OnInit, AfterViewInit {
         }
       })
     ).subscribe(accId => {
+      if (accId == null) { return; }
       this.accountNo = accId;
       this.loadAllData(accId)
     })

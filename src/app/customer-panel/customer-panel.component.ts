@@ -105,6 +105,7 @@ export interface CustomerDataViewElement {
   pan_no: string;
   dob: string;
   gender: string;
+  contact: number;
   address: string;
 }
 
