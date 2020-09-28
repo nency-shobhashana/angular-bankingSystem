@@ -30,6 +30,7 @@ import { AddTransactionComponent } from './add-transaction/add-transaction.compo
 import { AddPaymentComponent } from './add-payment/add-payment.component';
 import { ApproveAccountComponent } from './approve-account/approve-account.component';
 import { ApproveLoanComponent } from './approve-loan/approve-loan.component';
+import { ApproveManagerComponent } from './approve-manager/approve-manager.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { ApproveLoanComponent } from './approve-loan/approve-loan.component';
     AddPaymentComponent,
     ApproveAccountComponent,
     ApproveLoanComponent,
+    ApproveManagerComponent,
   ],
   imports: [
     BrowserModule,

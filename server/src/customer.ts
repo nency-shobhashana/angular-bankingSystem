@@ -22,7 +22,7 @@ export const customerRouter = (events) => {
 
   events.putRequestMultiQuery(
     '/customer',
-    `INSERT INTO customer (f_name, l_name, email, pan_no, dob, gender, state, city, street, pin) VALUES (?,?,?,?,?,?,?,?,?,?);
+    `INSERT INTO customer (f_name, l_name, email, pan_no, dob, gender, state, city, street, pin, contact) VALUES (?,?,?,?,?,?,?,?,?,?,?);
 
     INSERT INTO login(username,password,role,loginId)
     values
@@ -43,7 +43,8 @@ export const customerRouter = (events) => {
         req.body.state,
         req.body.city,
         req.body.street,
-        req.body.pin
+        req.body.pin,
+        req.body.contact
       ];
     });
 
@@ -56,7 +57,7 @@ export const customerRouter = (events) => {
   events.putRequest(
     '/customer/:id',
     'UPDATE customer SET ' +
-    'f_name=?, l_name=?, email=?, pan_no=?, dob=?, gender=?, state=?, city=?, street=?, pin=?' +
+    'f_name=?, l_name=?, email=?, pan_no=?, dob=?, gender=?, state=?, city=?, street=?, pin=?, contact=?' +
     ' WHERE cust_id = ?',
     (req: express.Request) => {
       return [
@@ -64,12 +65,13 @@ export const customerRouter = (events) => {
         req.body.l_name,
         req.body.email,
         req.body.pan_no,
-        moment(req.body.dob).format('yyyy-MM-DD	'),
+        moment(req.body.dob).format('yyyy-MM-DD'),
         req.body.gender,
         req.body.state,
         req.body.city,
         req.body.street,
         req.body.pin,
+        req.body.contact,
         req.params.id
       ];
     }

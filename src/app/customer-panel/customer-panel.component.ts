@@ -33,7 +33,6 @@ export class CustomerPanelComponent implements OnInit, AfterViewInit {
   constructor(public dialog: MatDialog, private serverService: ServerService) { }
 
   ngAfterViewInit(): void {
-    this.loadCustomerData();
     this.loadAccountData();
     this.loadLoanAccountData();
     this.loadDebitcardData();
@@ -44,9 +43,10 @@ export class CustomerPanelComponent implements OnInit, AfterViewInit {
     this.creditcardDataSource.paginator = this.creditPaginator;
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void { this.loadCustomerData(); }
 
   loadCustomerData(): void {
+    console.log(this.serverService.loginId);
     this.serverService.getCustomerData(this.serverService.loginId).subscribe(result => {
       if (result != null) {
         console.log(result);

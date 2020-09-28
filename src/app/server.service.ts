@@ -282,4 +282,11 @@ export class ServerService {
   approveLoan = (loanId: number, managerId: string) => of({loan_id: loanId, managerId}).pipe(
     switchMap((body) => from(this.request('POST', `${environment.serverUrl}/approveLoan`, body)))
   )
+
+  getAllNonManagerData = () => of(1).pipe(
+    switchMap(() => from(this.request('GET', `${environment.serverUrl}/nonManager`, [])))
+  )
+  promoteManager = (empId: number) => of({emp_id: empId}).pipe(
+    switchMap((body) => from(this.request('POST', `${environment.serverUrl}/promoteManager`, body)))
+  )
 }

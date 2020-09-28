@@ -16,4 +16,21 @@ export const loginRouter = (events: RouterModule) => {
     '/login',
     'INSERT INTO login(username,password,role,loginId) values (?, ?,?,?)',
     (req: express.Request) => [req.body.username, req.body.password]);
+
+  events.getRequest(
+    '/nonManager',
+    `SELECT * from login WHERE role=1`
+    , () => []);
+
+  events.postRequest(
+    '/promoteManager',
+    'UPDATE login SET ' +
+    'role=0' +
+    ' WHERE role=1 AND loginId = ?',
+    (req: express.Request) => {
+      return [
+        req.body.emp_id,
+      ];
+    }
+  );
 };

@@ -1,7 +1,7 @@
 import { concatMap, map, switchMap } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
 import { ServerService } from '../server.service';
 import { throwError } from 'rxjs';
 
@@ -71,6 +71,7 @@ export class AddEmplyeeComponent implements OnInit {
     this.route.paramMap.pipe(
       map((params: ParamMap) => {
         const id = params.get('id');
+        console.log(id);
         if (id != null) {
           return id as string;
         } else {
