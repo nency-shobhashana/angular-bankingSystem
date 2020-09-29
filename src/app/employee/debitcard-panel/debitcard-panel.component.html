@@ -17,8 +17,8 @@
 
 	<div class="example-container">
 		<mat-form-field appearance="fill">
-			<mat-label>Search by account no</mat-label>
-			<input matInput placeholder="Search by account no" name="searchString" [(ngModel)]="searchString">
+			<mat-label>Search by Account NO</mat-label>
+			<input matInput placeholder="Search by Account NO" name="searchString" [(ngModel)]="searchString">
 		</mat-form-field>
 		<a mat-raised-button color="accent" class="right-l20" (click)="searchCard()">Search</a>
 	</div>
@@ -31,10 +31,10 @@
 						(click)="deleteData(element.debit_id)">
 						<mat-icon>delete</mat-icon>
 					</button>
-					<a mat-icon-button color="primary" aria-label="Example icon button with a edit icon"
+					<!-- <a mat-icon-button color="primary" aria-label="Example icon button with a edit icon"
 					[routerLink]="['/employee/DebitcardDetail',element.debit_id]">
 						<mat-icon>edit</mat-icon>
-					</a>
+					</a> -->
 				</td>
 			</ng-container>
 

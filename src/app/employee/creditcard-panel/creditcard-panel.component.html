@@ -18,8 +18,8 @@
 	<div class="example-container">
 		<form>
 		<mat-form-field appearance="fill">
-			<mat-label>Search by Credit No</mat-label>
-			<input matInput placeholder="Search by Credit no" name="searchString" [(ngModel)]="searchString">
+			<mat-label>Search by Customere ID</mat-label>
+			<input matInput placeholder="Search by Customere ID" name="searchString" [(ngModel)]="searchString">
 		</mat-form-field>
 		<a mat-raised-button color="accent" class="right-l20" (click)="searchCard()">Search</a>
 	</form>
@@ -33,10 +33,10 @@
 						(click)="deleteData(element.credit_id)">
 						<mat-icon>delete</mat-icon>
 					</button>
-					<a mat-icon-button color="primary" aria-label="Example icon button with a edit icon"
+					<!-- <a mat-icon-button color="primary" aria-label="Example icon button with a edit icon"
 					[routerLink]="['/employee/creditcardDetail',element.credit_id]">
 						<mat-icon>edit</mat-icon>
-					</a>
+					</a> -->
 				</td>
 			</ng-container>
 
