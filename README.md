@@ -7,12 +7,13 @@
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-### configure you local mmysql server
+## Configure you local mmysql server
+
 - create a database and user for our application
 - grant all permission for database to that user
 - open `server/createTable.ts` file, copy value of query variable and run into your mysql client terminal to create all tables in your database.
 
-#### For API Server
+## For API Server
 
 - Go to `server` directory
 - open `index.ts` file and configure your MySQL server settings in it, byt changing `host`, `user`, `password` and `database`
