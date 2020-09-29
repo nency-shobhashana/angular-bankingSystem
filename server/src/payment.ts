@@ -34,10 +34,14 @@ export const paymentRouter = (events) => {
 
   events.putRequest(
     '/payment',
-    'INSERT INTO payment ( pay_date, pay_amt, loan_id) VALUES (?,?,?)',
+    `INSERT INTO payment ( pay_date, pay_amt, loan_id) VALUES (?,?,?);
+    UPDATE loan_account SET remain_amt= remain_amt - ? WHERE loan_id = ? ;
+    `,
     (req: express.Request) => {
       return [
         moment(req.body.createdDate).format('yyyy-MM-DD'),
+        req.body.pay_amt,
+        req.body.loan_id,
         req.body.pay_amt,
         req.body.loan_id
       ];

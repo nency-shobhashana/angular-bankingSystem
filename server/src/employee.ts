@@ -25,7 +25,7 @@ export const employeeRouter = (events) => {
     '/employee',
     `INSERT INTO employee (f_name, l_name, contact, dob, gender, state, city, street, pin) VALUES (?,?,?,?,?,?,?,?,?);
 
-    INSERT INTO login(username,password,role,loginId)
+    INSERT INTO login(username,password,role,emp_id)
     values
     (concat('emp_', LAST_INSERT_ID()) ,
     concat(char(round(rand()*25)+97), char(round(rand()*25)+97),char(round(rand()*25)+97),char(round(rand()*25)+97),char(round(rand()*25)+97),char(round(rand()*25)+97)),

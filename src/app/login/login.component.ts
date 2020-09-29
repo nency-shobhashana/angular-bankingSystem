@@ -20,13 +20,17 @@ export class LoginComponent implements OnInit {
   login(): void {
     this.serverService.loginAuth(this.username, this.password).subscribe((response) => {
       if (response != null) {
-        this.serverService.loginId = response['data']['loginId'];
-        sessionStorage.setItem('loginId',this.serverService.loginId)
         if (response['data']['role'] === '0') {
+          this.serverService.loginId = response['data']['emp_id'];
+          sessionStorage.setItem('loginId',this.serverService.loginId)
           this.router.navigate(['admin']);
         } else if (response['data']['role'] === '1') {
+          this.serverService.loginId = response['data']['emp_id'];
+          sessionStorage.setItem('loginId',this.serverService.loginId)
           this.router.navigate(['employee']);
         } else {
+          this.serverService.loginId = response['data']['cust_id'];
+          sessionStorage.setItem('loginId',this.serverService.loginId)
           this.router.navigate(['customer']);
         }
       } else {

@@ -37,13 +37,18 @@ export const transactionRouter = (events) => {
 
   events.putRequest(
     '/transaction',
-    'INSERT INTO transaction ( trans_date, trans_amt, trans_type, balance, acc_no) VALUES (?,?,?,?,?)',
+    `
+    INSERT INTO transaction ( trans_date, trans_amt, trans_type, balance, acc_no) VALUES (?,?,?, (Select acc_bal + ? from account where acc_no=?) ,?);
+    UPDATE account SET acc_bal=(SELECT balance from transaction where trans_id=LAST_INSERT_ID()) WHERE acc_no = ? ;
+    `,
     (req: express.Request) => {
       return [
         moment(req.body.createdDate).format('yyyy-MM-DD'),
         req.body.trans_amt,
         req.body.trans_type,
-        req.body.balance,
+        req.body.trans_type === 'Credit' ? req.body.trans_amt : (-req.body.trans_amt),
+        req.body.acc_no,
+        req.body.acc_no,
         req.body.acc_no
       ];
     });

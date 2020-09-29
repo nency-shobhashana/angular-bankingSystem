@@ -5,13 +5,13 @@ export const approveAccountRouter = (events) => {
 
   events.getRequest(
     '/nonApproveAccount',
-    `SELECT * from approvedAccount WHERE approved=0`
+    `SELECT * from account WHERE approved=0`
     , () => []);
 
   events.postRequest(
     '/approveAccount',
-    'UPDATE approvedAccount SET ' +
-    'approved=1, managerId=?' +
+    'UPDATE account SET ' +
+    'approved=1, approvedBy=?' +
     ' WHERE acc_no = ?',
     (req: express.Request) => {
       return [
@@ -23,13 +23,13 @@ export const approveAccountRouter = (events) => {
 
   events.getRequest(
     '/nonApproveLoan',
-    `SELECT * from approvedLoan WHERE approved=0`
+    `SELECT * from loan_account WHERE approved=0`
     , () => []);
 
   events.postRequest(
     '/approveLoan',
-    'UPDATE approvedLoan SET ' +
-    'approved=1, managerId=?' +
+    'UPDATE loan_account SET ' +
+    'approved=1, authorizedBy=?' +
     ' WHERE loan_id = ?',
     (req: express.Request) => {
       return [

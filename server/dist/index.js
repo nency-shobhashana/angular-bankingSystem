@@ -9,7 +9,7 @@ var connection = mysql.createConnection({
     host: 'localhost',
     user: 'banking_admin',
     password: 'nenu',
-    database: 'cbd_banking',
+    database: 'banking_cbd',
     multipleStatements: true
 });
 var port = process.env.PORT || 8080;

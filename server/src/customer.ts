@@ -24,7 +24,7 @@ export const customerRouter = (events) => {
     '/customer',
     `INSERT INTO customer (f_name, l_name, email, pan_no, dob, gender, state, city, street, pin, contact) VALUES (?,?,?,?,?,?,?,?,?,?,?);
 
-    INSERT INTO login(username,password,role,loginId)
+    INSERT INTO login(username,password,role,cust_id)
     values
     (concat('cust_', LAST_INSERT_ID()),
     concat(char(round(rand()*25)+97), char(round(rand()*25)+97),char(round(rand()*25)+97),char(round(rand()*25)+97),char(round(rand()*25)+97),char(round(rand()*25)+97)),

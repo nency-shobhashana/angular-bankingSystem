@@ -5,7 +5,7 @@ import { ServerService } from '../server.service';
 
 export interface ApprovedManagerViewElement {
   username: string;
-  loginId: number;
+  emp_id: number;
 }
 
 const ELEMENT_DATA: ApprovedManagerViewElement[] = [];
@@ -19,7 +19,7 @@ export class ApproveManagerComponent implements OnInit, AfterViewInit {
 
   constructor(private serverService: ServerService) { }
 
-  displayedColumns: string[] = ['action', 'username', 'loginId'];
+  displayedColumns: string[] = ['action', 'username', 'emp_id'];
   dataSource = new MatTableDataSource<ApprovedManagerViewElement>(ELEMENT_DATA);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
