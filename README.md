@@ -1,27 +1,20 @@
-# Cbd
+# Install Project
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.3.
+- This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.3.
+- for run in your deveice take clone of this project and check you have installed node and angular cli in your system
 
-## Development server
+## To start web application
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
+### configure you local mmysql server
+- create a database and user for our application
+- grant all permission for database to that user
+- open `server/createTable.ts` file, copy value of query variable and run into your mysql client terminal to create all tables in your database.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+#### For API Server
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- Go to `server` directory
+- open `index.ts` file and configure your MySQL server settings in it, byt changing `host`, `user`, `password` and `database`
+- Run 'npm install' 
+- After successfull instatling all dpendencies run `npm run start-server`
